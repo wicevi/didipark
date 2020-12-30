@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "plate-input":"/components/car_plate_input/car_plate_input",
+    "i-message": "../../dist/message/index"
+  },
+  "navigationBarTitleText": "月卡管理",
+  "navigationBarBackgroundColor": "#2d8cf0",
+  "navigationBarTextStyle": "white"
+}

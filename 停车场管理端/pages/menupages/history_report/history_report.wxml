@@ -1,0 +1,69 @@
+<!--pages/menupages/history_report/history_report.wxml-->
+<wxs module="tools" src="../../../utils/tool.wxs"></wxs>
+<!-- 顶部选择器 -->
+<view class="padding bg-white shadow">
+  <view class="flex align-center justify-between">
+    <view  class="flex align-center">
+      <picker class="text-bold text-grey" mode="date" value="{{startDate}}" fields="{{queryType[queryIndex].type}}" bindchange="startDateChange" end="{{endDate}}">
+        {{startDate}}<text class="cuIcon-unfold padding-left-xs"></text>
+      </picker>
+      <text class="margin-lr-sm">至</text>
+      <picker class="text-bold text-grey" mode="date" value="{{endDate}}" fields="{{queryType[queryIndex].type}}" bindchange="endDateChange" start="{{startDate}}" end="{{nowDate}}">
+        {{endDate}}<text class="cuIcon-unfold padding-left-xs"></text>
+      </picker>
+    </view>
+    <picker class="text-bold text-grey" range="{{queryType}}" range-key="name" value="{{queryIndex}}" bindchange="queryTypeChange">
+        {{queryType[queryIndex].name}}<text class="cuIcon-unfold padding-left-xs"></text>
+    </picker>
+  </view>
+</view>
+<!-- 报表数据汇总 -->
+<view class="flex align-center text-lg text-bold text-black margin-lr report-info-view-title margin-top">
+  <view class="flex-sub text-center">
+    <text class="padding-bottom-xs top-bar-item padding-lr-xs">总订单数：<text class="text-primer text-bold text-xl">{{reportNum}}</text></text>
+  </view>
+  <view class="flex-sub text-center">
+    <text class="padding-bottom-xs top-bar-item padding-lr-sm">总收入：<text class="text-red text-bold text-xl text-price">{{tools.toFix_2(reportPrice/100)}}</text></text>
+  </view>
+</view>
+<!--报表数据为空-->
+<view class="margin align-center flex" wx:if="{{!reportList||reportList.length==0}}">
+  <view class="flex-sub"></view>
+  <image src="/images/sad.png" style="width:60rpx;height:60rpx;"></image>
+  <text class="text-bold text-xl margin-left-xs">未查询到该时间段的报表数据</text>
+  <view class="flex-sub"></view>
+</view>
+<!-- 报表数据 -->
+<view class="data-info-view padding-sm bg-white shadow" wx:for="{{reportList}}">
+  <view class="data-info-top text-sub flex align-center text-center">
+    <view class="flex-treble">日期:<text class="text-bold padding-xs">{{item.Date}}</text></view>
+    <view class="flex-twice">订单:<text class="padding-xs text-primer text-bold">{{item.VipCount+item.IOCount+item.AbnormalCount}}</text></view>
+    <view class="flex-twice">收入:<text class="text-price padding-xs text-red text-bold">{{tools.toFix_2((item.VipPrice+item.IOPrice)/100)}}</text></view>
+  </view>
+  <view class="data-info-table-title text-df text-bold flex align-center text-center padding-top-xs">
+    <view class="flex-treble">类型</view>
+    <view class="flex-twice">数量</view>
+    <view class="flex-twice">金额</view>
+  </view>
+  <view class="data-info-table-tb text-df flex align-center text-center padding-top-xs">
+    <view class="flex-treble">包年包月订单</view>
+    <view class="flex-twice">{{item.VipCount}}</view>
+    <view class="flex-twice text-price">{{tools.toFix_2(item.VipPrice/100)}}</view>
+  </view>
+  <view class="data-info-table-tb text-df flex align-center text-center padding-top-xs">
+    <view class="flex-treble">临时缴费订单</view>
+    <view class="flex-twice">{{item.IOCount}}</view>
+    <view class="flex-twice text-price">{{tools.toFix_2(item.IOPrice/100)}}</view>
+  </view>
+  <view class="data-info-table-tb text-df flex align-center text-center padding-top-xs">
+    <view class="flex-treble">异常进出订单</view>
+    <view class="flex-twice">{{item.AbnormalCount}}</view>
+    <view class="flex-twice text-price">0.00</view>
+  </view>
+</view>
+<!-- 加载进度弹窗 -->
+<view class='cu-load load-modal' wx:if="{{isLoading}}">
+  <!-- <view class='cuIcon-emojifill text-orange'></view> -->
+  <image src='/images/logo.png' class='png' mode='aspectFit'></image>
+  <view class='gray-text'>加载数据中...</view>
+</view>

@@ -1,0 +1,53 @@
+/* pages/login/login.wxss */
+.backimg-view{
+  width: 100%;
+  height : 100vh;
+  margin: 0px;
+  background-image: linear-gradient(#2d8cf0, #f0f0f0);
+}
+.logo-view{
+  width: 100%;
+  text-align: center;
+  padding-top: 10vh;
+}
+.app-name-view{
+  width: 100%;
+  text-align: center;
+  margin-top: 20rpx;
+  color: #515a6e;
+}
+.input-all-view{
+  margin-top: 120rpx;
+}
+.input-view{
+  width: 60%;
+  margin: 20rpx auto;
+  padding: 12rpx 20rpx;
+  border: 1rpx solid #000;
+  border-radius: 3000rpx;
+}
+.login-btn{
+  width: 25%;
+  margin: 40rpx auto;
+  padding: 14rpx 20rpx;
+  border-radius: 20rpx;
+}
+.page-bottom{
+  width: 100%;
+  position: fixed;
+  bottom: 5rpx;
+  left: 0px;
+}
+.loading-img{
+  display: block;
+  margin: 0 auto;
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 3000rpx;
+}
+.loading-text{
+  margin-top: 20rpx;
+  text-align: center;
+  font-size: 40rpx;
+  font-weight: bold;
+}

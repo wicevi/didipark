@@ -1,0 +1,36 @@
+/**app.wxss**/
+@import "colorui/main.wxss";
+@import "colorui/icon.wxss";
+
+.my-btn{
+  border-radius: 8rpx;
+}
+.my-btn:active{
+  background-color: #e9eaec;
+  color: black;
+}
+
+.ellipsis-view{
+  display: inline-block;
+  text-overflow: ellipsis;
+	white-space: nowrap;
+  overflow: hidden;
+  max-width: 220rpx;
+}
+/*悬浮按钮*/
+.suspension-view{
+  position: fixed;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  background-color: #2d8cf0;
+  bottom: 120rpx;
+  right: 40rpx;
+  color: white;
+  font-size: 60rpx;
+}
+.suspension-view:active{
+  background-color: #e9eaec;
+  color: black;
+}
+

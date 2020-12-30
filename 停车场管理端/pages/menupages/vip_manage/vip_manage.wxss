@@ -1,0 +1,73 @@
+/* pages/menupages/vip_manage/vip_manage.wxss */
+.delete-view{
+  position: absolute;
+  z-index: 99;
+  right: 30rpx;
+  background-color: #ed3f14;
+  margin-left: auto;
+  width: 80rpx;
+  height: 80rpx;
+  color: white;
+  border-radius: 0rpx 16rpx 0rpx 80rpx;
+  font-size: 30rpx;
+}
+.delete-view:active{
+  background-color: #e9eaec;
+  color: black;
+}
+.delete-text{
+  display: inline-block;
+  margin: 20rpx 20rpx 30rpx 30rpx;
+}
+.car-key-view{
+  line-height: 30rpx;
+  font-size: 30rpx;
+  margin-right: 16rpx;
+}
+.car-value-view{
+  border: 1rpx solid #dddee1;
+  border-radius:999rpx;
+  padding: 12rpx 20rpx;
+  text-align: center;
+  color: #495060;
+  line-height: 26rpx;
+  font-size: 26rpx;
+}
+.continue-date-view{
+  line-height: 30rpx;
+  font-size: 30rpx;
+  text-align: center;
+  border-radius:999rpx;
+  padding: 12rpx 20rpx;
+  background-color: #2d8cf0;
+  color: white;
+}
+.continue-date-view:active{
+  background-color: #e9eaec;
+  color: black;
+}
+.modal-item-view{
+  height: 70rpx;
+  font-size: 32rpx;
+  padding: 8rpx 20rpx;
+  border: 1rpx solid #dddee1;
+  border-radius: 999rpx;
+  margin: 20rpx 0rpx;
+}
+.add-btn-view{
+  border-radius: 999rpx;
+  background-color: #2d8cf0;
+  color: white;
+  width: 120rpx;
+  height: 120rpx;
+  line-height: 120rpx;
+  position: absolute;
+  bottom: 160rpx;
+  right: 50rpx;
+  text-align: center;
+  font-size: 70rpx;
+}
+.add-btn-view:active{
+  background-color: #e9eaec;
+  color: black;
+}

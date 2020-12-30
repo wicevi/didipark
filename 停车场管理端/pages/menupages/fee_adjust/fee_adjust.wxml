@@ -1,0 +1,112 @@
+<!--pages/menupages/fee_adjust/fee_adjust.wxml-->
+<!--顶部选择器-->
+<view class="top-select-view bg-white padding-sm shadow">
+  <view class="flex align-center">
+    <view class="top-select-time-view flex align-center">
+      <text class="text-lg">当前:</text>
+      <picker class="padding-lr-xs line-primer3 margin-left-xxs" range="{{feeList}}" range-key="feeName" value="{{feeIndex}}" bindchange="feeChange">
+        <text class="text-bold">{{feeList[feeIndex].feeName}}</text>
+        <text class="cuIcon-unfold"></text>
+      </picker>
+    </view>
+    <view class="flex-sub"></view>
+    <view class="my-btn bg-blue text-df set-free-btn" bindtap="queryBtn">更改<text class="cuIcon-settings margin-left-xs"></text></view>
+  </view>
+</view>
+<!--策略列表-->
+<view class="fee-view margin-lr margin-tb-sm padding-sm bg-white shadow" wx:for="{{feeList}}">
+  <!-- 策略名称 -->
+  <view class="fee-name-view margin-lr-xs text-lg flex align-center justify-between">
+    <view>
+    <text class="cuIcon-title text-blue"></text>
+    <text class="text-bold">{{item.feeName}}</text>
+    </view>
+    <view class="text-df flex">
+      <view class="padding-xs my-btn bg-red margin-lr-xs" bindtap="deleteFee" data-index="{{index}}">
+        <text class="cuIcon-delete padding-right-xs"></text>
+        <text>删除</text>
+      </view>
+      <view class="padding-xs my-btn bg-blue margin-lr-xs" bindtap="editFee" data-index="{{index}}">
+        <text class="cuIcon-edit padding-right-xs"></text>
+        <text>编辑</text>
+      </view>
+    </view>
+  </view>
+  <!-- 收费表 -->
+  <view class="table-view text-df margin-tb-xs">
+    <view class="th-view flex align-center">
+      <view class="th-item flex-twice text-center">
+        时间(分钟)
+      </view>
+      <view class="th-item flex-sub text-center">
+        {{'<'}}<text class="text-bold">{{item.freeTime/60}}</text>
+      </view>
+      <view class="th-item flex-twice text-center">
+        {{'>'}}<text class="text-bold">{{item.freeTime/60}}</text>&{{'<'}}<text class="text-bold">{{item.startTime/60}}</text>
+      </view>
+      <view class="th-item flex-twice text-center">
+        {{'>'}}<text class="text-bold">{{item.startTime/60}}</text>
+      </view>
+    </view>
+    <view class="td-view flex align-center">
+      <view class="td-item flex-twice text-center">
+        价格(元)
+      </view>
+      <view class="td-item flex-sub text-center">
+        <text class="text-bold text-price text-green">0</text>
+      </view>
+      <view class="td-item flex-twice text-center">
+        <text class="text-bold text-price text-green">{{item.startPrice/100}}</text>
+      </view>
+      <view class="td-item flex-twice flex align-center justify-center">
+        <text class="text-bold text-price text-green">{{item.stepPrice/100}}</text><text class="text-xxl">/</text><text class="text-italic">{{item.stepTime/60}}min</text>
+      </view>
+    </view>
+  </view>
+  <view class="fee-info-view margin-lr-xs grid col-2 text-df">
+    <!--单日最高收费以及包夜价格-->
+    <view class="fee-info-item-view padding-top-xs" wx:if="{{item.dayMaxFee>0}}">
+      <text>单日最高收费:</text>
+      <text class="fee-info-value-view text-price text-red">{{item.dayMaxFee/100}}</text>
+    </view>
+    <view class="fee-info-item-view padding-top-xs" wx:if="{{item.dayMaxFee==0}}">
+      <text class="text-red">未设置单日最高收费</text>
+    </view>
+    <view class="fee-info-item-view padding-top-xs" wx:if="{{item.allNightPrice>0}}">
+      <text>包夜价格:</text>
+      <text class="fee-info-value-view text-price text-black">{{item.allNightPrice/100}}</text>
+    </view>
+    <view class="fee-info-item-view padding-top-xs" wx:if="{{item.allNightPrice==0}}">
+      <text class="text-red">未设置包夜</text>
+    </view>
+    <!--包夜时段-->
+    <view class="fee-info-item-view padding-top-xs" wx:if="{{item.allNightPrice>0}}">
+      <text>包夜时段开始:</text>
+      <text class="fee-info-value-view text-grey">{{item.allNightStartTime}}</text>
+    </view>
+    <view class="fee-info-item-view padding-top-xs" wx:if="{{item.allNightPrice>0}}">
+      <text>结束:</text>
+      <text class="fee-info-value-view text-grey">{{item.allNightEndTime}}</text>
+    </view>
+    <!--各个卡价格-->
+    <view class="fee-info-item-view padding-top-xs" wx:if="{{item.monthPrice>0}}">
+      <text>包月价格:</text>
+      <text class="fee-info-value-view text-price text-green">{{item.monthPrice/100}}</text>
+    </view>
+    <view class="fee-info-item-view padding-top-xs" wx:if="{{item.quarterPrice>0}}">
+      <text>包季价格:</text>
+      <text class="fee-info-value-view text-price text-green">{{item.quarterPrice/100}}</text>
+    </view>
+    <view class="fee-info-item-view padding-top-xs" wx:if="{{item.halfYearPrice>0}}">
+      <text>包半年价格:</text>
+      <text class="fee-info-value-view text-price text-green">{{item.halfYearPrice/100}}</text>
+    </view>
+    <view class="fee-info-item-view padding-top-xs" wx:if="{{item.yearPrice>0}}">
+      <text>包年价格:</text>
+      <text class="fee-info-value-view text-price text-green">{{item.yearPrice/100}}</text>
+    </view>
+  </view>
+</view>
+<view class="suspension-view flex align-center text-center" bindtap="addFee">
+  <text class="cuIcon-add flex-sub"></text>
+</view>

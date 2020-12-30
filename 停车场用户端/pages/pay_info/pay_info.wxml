@@ -1,0 +1,61 @@
+<!--pages/pay_info/pay_info.wxml-->
+<wxs module="tools" src="../../utils/tool.wxs"></wxs>
+<!-- 预付款信息 -->
+<view class="pay-info-top-border"></view>
+<view class="pay-info-top-view">
+  <view class="pay-info-parkname-view">
+    {{parkName}}
+  </view>
+  <view class="pay-info-plate-view">
+    {{tools.strToPlate(plate)}}
+  </view>
+  <view class="flex justify-center align-center margin-top">
+    <view class="pay-info-top-btn margin-right-sm" bindtap="watchPic">查看图片</view>
+    <view class="pay-info-top-btn margin-left-sm" bindtap="updateData">刷新数据</view>
+  </view>
+</view>
+<view class="pay-info-bottom-view">
+  <view class="pay-info-time-view">
+    <view class="flex justify-between align-center pay-info-item-view">
+      <view class="pay-info-key-view">进场时间</view>
+      <view class="pay-info-value-view">{{startTime}}</view>
+    </view>
+    <view class="flex justify-between align-center pay-info-item-view">
+      <view class="pay-info-key-view">离场时间</view>
+      <view class="pay-info-value-view">{{endTime}}</view>
+    </view>
+    <view class="flex justify-between align-center pay-info-item-view">
+      <view class="pay-info-key-view">停车时长</view>
+      <view class="pay-info-value-view">{{stayTime}}</view>
+    </view>
+  </view>
+  <view class="pay-info-money-view">
+    <view class="flex justify-between align-center pay-info-item-view">
+      <view class="pay-info-key-view">停车费</view>
+      <view class="pay-info-value-view text-price">{{price/100.0}}</view>
+    </view>
+    <view class="flex justify-between align-center pay-info-item-view">
+      <view class="pay-info-key-view">优惠</view>
+      <view class="pay-info-value-view text-price">0</view>
+    </view>
+    <view class="flex justify-between align-center pay-info-item-view">
+      <view class="pay-info-key-view">已缴费</view>
+      <view class="pay-info-value-view text-price">0</view>
+    </view>
+    <view class="flex justify-between align-center pay-info-item-view">
+      <view class="pay-info-key-view">需缴费</view>
+      <view class="pay-info-value-view text-price text-red text-bold text-xxl">{{price/100.0}}</view>
+    </view>
+  </view>
+</view>
+<!-- 支付按钮 -->
+<view class="padding bg-Primary pay-info-button text-xl" bindtap="getPayData">
+  确认支付
+</view>
+<!--一些提示框-->
+<i-message id="message"/>
+<!-- 加载框 -->
+<view class='cu-load load-modal' wx:if="{{isLoading}}">
+  <image src='/images/logo.png' class='png' mode='aspectFit'></image>
+  <view class='gray-text'>加载中...</view>
+</view>

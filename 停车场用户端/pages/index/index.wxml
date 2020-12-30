@@ -1,0 +1,73 @@
+<!--index.wxml-->
+<wxs module="tools" src="../../utils/tool.wxs"></wxs>
+<!-- 广告位 -->
+<image class="ad-view" src="/images/ad.jpg"></image>
+<!-- 费用查询 -->
+<view class="inpu-view">
+  <view class="input-plate-view{{isInputing?'-selected':''}} shadow-blur {{plate?'text-black text-bold':'text-grey'}}" bindtap="openBoard">{{plate?tools.strToPlate(plate):'请输入车牌号码'}}</view>
+  <view class="query-pay-btn shadow-blur" bindtap="queryFee">查询费用</view>
+</view>
+<!-- 历史记录 -->
+<view class="history-view">
+  <view class="flex justify-between align-center text-grey history-title-view margin-tb-xs">
+    <view class="history-title-item">历史车牌输入</view>
+    <view class="history-title-item history-clear-btn" bindtap="clearHistory">清空<text class="cuIcon-delete"></text></view>
+  </view>
+  <view class="grid col-3" wx:if="{{historyPlates&&historyPlates.length>0}}">
+    <view class="text-center margin-tb-xs" wx:for="{{historyPlates}}" wx:key="key">
+      <view class="history-plate-view" data-value="{{item}}" bindtap="fastInput">{{tools.strToPlate(item)}}</view>
+    </view>
+  </view>
+  <view class="text-center margin" wx:if="{{!historyPlates||historyPlates.length==0}}">
+    暂无历史车牌记录
+  </view>
+</view>
+<!-- 提示登录弹窗 -->
+<view class="cu-modal {{isShowLoginModal?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">请先登录</view>
+      <view class="action" bindtap="hideShowLoginModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-top-xl flex justify-center">
+      <image style="width:120rpx;height:120rpx;" src="/images/logo.png"></image>
+    </view>
+    <view class="padding-bottom-xl padding-lr-xl padding-top-sm margin">
+      <view class="text-lg text-left">请点击底部按钮进行登录后再进行操作</view>
+      <view class="text-sm text-red text-left">注：若一直无法登录请检查手机联网状态或咨询客服</view>
+    </view>
+    <view class="cu-bar bg-white justify-center">
+      <view class="action">
+        <view class="my-btn bg-Primary round" style="padding:12rpx 80rpx;" bindtap="loginUser">
+          <text>登录</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<!-- 查询进度弹窗 -->
+<view class='cu-load load-modal' wx:if="{{isLoading}}">
+  <image src='/images/logo.png' class='png' mode='aspectFit'></image>
+  <view class='gray-text'>查询中...</view>
+</view>
+<!-- 车牌输入键盘 -->
+<plate-keyboard id="my-keyboard" bind:finish="finish" bind:input="input" bind:close="close"></plate-keyboard>
+<!-- 提示消息 -->
+<i-message id="message"/>
+<!--底部TabBar 面板-->
+<view class="flex justify-around align-center cu-bar-view" wx:if="{{!isInputing}}">
+  <view class="cu-bar-item">
+    <image class="cu-bar-img" src="/images/prepay_1.png"></image>
+    <text class="cu-bar-text-selected">缴费离场</text>
+  </view>
+  <view class="cu-bar-item" bindtap="goBuyVip">
+    <image class="cu-bar-img" src="/images/buyvip.png"></image>
+    <text class="cu-bar-text">月卡办理</text>
+  </view>
+  <view class="cu-bar-item" bindtap="goUser">
+    <image class="cu-bar-img" src="/images/user.png"></image>
+    <text class="cu-bar-text">个人中心</text>
+  </view>
+</view>

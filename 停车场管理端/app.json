@@ -1,0 +1,21 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/menupages/order_manage/order_manage",
+    "pages/menupages/fee_adjust/fee_adjust",
+    "pages/menupages/blacklist_manage/blacklist_manage",
+    "pages/menupages/add_edit_fee/add_edit_fee",
+    "pages/menupages/car_manage/car_manage",
+    "pages/login/login",
+    "pages/menupages/vip_manage/vip_manage",
+    "pages/menupages/history_report/history_report"
+  ],
+  "window": {
+    "backgroundColor": "#f0f0f0",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

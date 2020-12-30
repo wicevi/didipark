@@ -1,0 +1,44 @@
+var tools = {
+  toFix_0: function (value) {       
+    return value.toFixed(0)    
+  },
+  toFix_2: function (value) {       
+      return value.toFixed(2) 
+  },
+  strlen: function(value) {   
+    if(value==null)return 0; 
+    return value.length
+  },
+  strToPlate: function(value) {  
+    if(value==null)return null;   
+    var len=value.length;
+    var reStr="";
+    for(var i=0;i<len;i++){
+      reStr+=value[i];
+      if(i==1)reStr+='·';
+    }
+    return reStr;
+  },
+  isNearExpiration: function(nowDate,expireDate) { 
+    if(nowDate==null||expireDate==null)return false;
+    var nowDateStrs=nowDate.split("-"); 
+    var expireDateStrs=expireDate.split("-"); 
+    var day_=0;
+    if(nowDateStrs.length==3&&expireDateStrs.length==3){
+      day_+=expireDateStrs[2]-nowDateStrs[2];
+      day_+=(expireDateStrs[1]-nowDateStrs[1])*30;
+      day_+=(expireDateStrs[0]-nowDateStrs[0])*365;
+      //console.log("isNearExpiration："+day_);
+      return day_<5;
+    }
+    return false;
+  }
+}
+
+module.exports = {   
+  toFix_0: tools.toFix_0,
+  toFix_2: tools.toFix_2,
+  strlen : tools.strlen,
+  strToPlate: tools.strToPlate,
+  isNearExpiration: tools.isNearExpiration
+}

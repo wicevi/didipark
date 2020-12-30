@@ -1,0 +1,44 @@
+<!--pages/vip_manage/vip_manage.wxml-->
+<wxs module="tools" src="../../utils/tool.wxs"></wxs>
+<!-- 车牌输入搜索框 -->
+<view class="cu-bar search bg-white shadow">
+  <view class="search-form round" bindtap="openInputView">
+    <text class="cuIcon-search"></text>
+    <input type="text" placeholder="输入要进行月卡管理的车牌号码" value="{{tools.strToPlate(plate)}}" disabled="true"></input>
+  </view>
+  <view class="action">
+    <view class="my-btn bg-Primary padding-tb-xs padding-lr-sm search-btn" style="border-radius: 999rpx;" bindtap="queryVipInfo">查询</view>
+  </view>
+</view>
+<!-- 提示框 -->
+<view class="text-center margin-tb-xl text-bold text-xl" wx:if="{{(!parkList||parkList.length==0)}}">
+  {{tools.strlen(plate)<7?'请先输入完整车牌':'车辆 '+tools.strToPlate(plate)+' 暂无车场月卡'}}
+</view>
+<block wx:else>
+  <!-- 结果 -->
+  <view class="result-info-view">
+    车辆<text class="padding-xs text-bold text-xl text-black">{{tools.strToPlate(plate)}}</text>共有<text class="padding-xs text-bold text-xl text-primer">{{parkList.length}}</text>条月卡信息
+  </view>
+  <!-- 月卡列表 -->
+  <view class="vip-list-view">
+    <view class="margin-lr margin-tb-sm padding bg-white shadow text-lg text-grey" style="border-radius:12rpx" wx:for="{{parkList}}" wx:key="key">
+      <view class="flex align-center justify-between margin-bottom">
+        <view>车场:<text class="padding-lr-xs text-black">{{item.ParkName}}</text></view>
+        <view class="{{tools.getExpirationTime(nowDate,item.VipTime.ExpireTime)>5?'text-green':'text-red'}}">{{tools.getExpirationTime(nowDate,item.VipTime.ExpireTime)>=0?'剩'+tools.getExpirationTime(nowDate,item.VipTime.ExpireTime)+'天':'已过期'}}</view>
+      </view>
+      <view class="flex align-center justify-between">
+        <view>时间:<text class="padding-lr-xs text-black">{{item.VipTime.StartTime}}</text>至<text class="padding-lr-xs text-black">{{item.VipTime.ExpireTime}}</text></view>
+        <view class="buy-vip-btn text-white {{tools.getExpirationTime(nowDate,item.VipTime.ExpireTime)>=0?'bg-orange':'bg-green'}}" bindtap="buyVip">{{tools.getExpirationTime(nowDate,item.VipTime.ExpireTime)>=0?'续费':'购买'}}</view>
+      </view>
+    </view>
+  </view>
+</block>
+<!-- 车牌输入 -->
+<plate-input bind:confirm="confirm" id="plate-input"></plate-input>
+<!-- 查询进度弹窗 -->
+<view class='cu-load load-modal' wx:if="{{isLoading}}">
+  <image src='/images/logo.png' class='png' mode='aspectFit'></image>
+  <view class='gray-text'>加载中...</view>
+</view>
+<!-- 提示消息 -->
+<i-message id="message"/>

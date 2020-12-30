@@ -1,0 +1,31 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/rent/rent",
+    "pages/pay_info/pay_info",
+    "pages/user/user",
+    "pages/vip_manage/vip_manage"
+  ],
+  "window": {
+    "backgroundColor": "#f0f0f0",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "嘀嘀停车",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "custom": true,
+    "list": [
+      {
+        "pagePath": "pages/index/index"
+      },
+      {
+        "pagePath": "pages/rent/rent"
+      },
+      {
+        "pagePath": "pages/user/user"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

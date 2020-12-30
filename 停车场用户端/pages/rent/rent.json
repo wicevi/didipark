@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "plate-keyboard":"/components/car_plate_keyboard/car_plate_keyboard",
+    "i-message": "../../dist/message/index"
+  },
+  "navigationBarTitleText": "月卡办理",
+  "navigationBarBackgroundColor": "#2d8cf0",
+  "navigationBarTextStyle": "white"
+}

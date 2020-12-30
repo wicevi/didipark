@@ -1,0 +1,73 @@
+/* pages/user/user.wxss */
+@import "/colorui/main.wxss";
+@import "/colorui/icon.wxss";
+
+.backimg-view{
+  width: 100%;
+  height : 560rpx;
+  margin: 0px;
+  background-image: linear-gradient(#2d8cf0, #f0f0f0);
+}
+.logo-view{
+  width: 100%;
+  text-align: center;
+  padding-top: 100rpx;
+}
+.app-name-view{
+  width: 100%;
+  text-align: center;
+  margin-top: 20rpx;
+  color: #515a6e;
+  margin-bottom: 30rpx;
+  font-size: 38rpx;
+}
+.usr-name-view{
+  width: 60%;
+  height: 60rpx;
+  margin: 10rpx auto 0rpx;
+  padding: 5rpx 10rpx;
+  line-height: 60rpx;
+  font-size: 30rpx;
+  border: 1rpx solid #808695;
+  border-radius: 999rpx;
+  color: #808695;
+}
+.user-menu-img{
+  display: inline-block;
+  width: 18rpx;
+  height: 18rpx;
+}
+.changepw-input{
+  width: 60%;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 30rpx;
+  margin: 10rpx auto;
+  padding: 5rpx 10rpx;
+  border: 1rpx solid #808695;
+  border-radius: 999rpx;
+  color: #808695;
+}
+.changepw-input-select{
+  width: 60%;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  margin: 10rpx auto;
+  padding: 5rpx 10rpx;
+  border: 4rpx solid #1296db;
+  border-radius: 999rpx;
+  color: #1296db;
+}
+.err-info-view{
+  width: 60%;
+  margin: 0rpx auto;
+  text-align: left;
+  font-size: 26rpx;
+  color: red;
+}
+.my-btn:active{
+  background-color: #e9eaec;
+  color: black;
+}

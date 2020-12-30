@@ -1,0 +1,62 @@
+var tools = {
+  toFix_0: function (value) {       
+    return value.toFixed(0)    
+  },
+  toFix_2: function (value) {       
+      return value.toFixed(2) 
+  },
+  strlen: function(value) {   
+    if(value==null)return 0; 
+    return value.length
+  },
+  strToPlate: function(value) {  
+    if(value==null)return null;   
+    var len=value.length;
+    var reStr="";
+    for(var i=0;i<len;i++){
+      reStr+=value[i];
+      if(i==1)reStr+='·';
+    }
+    return reStr;
+  },
+  isNearExpiration: function(nowDate,expireDate) { 
+    if(nowDate==null||expireDate==null)return false;
+    var nowDateStrs=nowDate.split("-"); 
+    var expireDateStrs=expireDate.split("-"); 
+    var day_=0;
+    if(nowDateStrs.length==3&&expireDateStrs.length==3){
+      day_+=expireDateStrs[2]-nowDateStrs[2];
+      day_+=(expireDateStrs[1]-nowDateStrs[1])*30;
+      day_+=(expireDateStrs[0]-nowDateStrs[0])*365;
+      //console.log("isNearExpiration："+day_);
+      return day_<5;
+    }
+    return false;
+  },
+  isExpiration: function(nowDate,expireDate) { 
+    if(nowDate==null||expireDate==null)return true;
+    var nowDateStrs=nowDate.split("-"); 
+    var expireDateStrs=expireDate.split("-"); 
+    if(expireDateStrs[0]>nowDateStrs[0])return false;
+    if(expireDateStrs[0]==nowDateStrs[0]&&expireDateStrs[1]>nowDateStrs[1])return false;
+    if(expireDateStrs[0]==nowDateStrs[0]&&expireDateStrs[1]==nowDateStrs[1]&&expireDateStrs[2]>nowDateStrs[2])return false;
+    return true;
+  },
+  getExpirationTime: function(nowDate,expireDate){
+    if(nowDate==null||expireDate==null)return 0;
+    var nowTime = Date.parse(nowDate);
+    var expireTime = Date.parse(expireDate);
+    var lastTime=(expireTime-nowTime)/1000/60/60/24;
+    return lastTime;
+  }
+}
+
+module.exports = {   
+  toFix_0: tools.toFix_0,
+  toFix_2: tools.toFix_2,
+  strlen : tools.strlen,
+  strToPlate: tools.strToPlate,
+  isNearExpiration: tools.isNearExpiration,
+  isExpiration: tools.isExpiration,
+  getExpirationTime: tools.getExpirationTime
+}

@@ -1,0 +1,83 @@
+<!--pages/rent/rent.wxml-->
+<wxs module="tools" src="../../utils/tool.wxs"></wxs>
+<view class="vip-form-top-border"></view>
+<view class="vip-form-title-view">{{tools.isExpiration(nowTime,parkList[parkIndex].VipTime.ExpireTime)?'创建':'续费'}}订单</view>
+<!-- 月卡办理表单 -->
+<view class="vip-form-view">
+  <view class="flex justify-between align-center vip-item-view">
+    <view class="vip-form-key-view">办理车牌</view>
+    <view class="input-view{{isInputing?'-selected':''}} shadow-blur {{plate?'text-black text-bold':'text-grey'}}" bindtap="openBoard">{{plate?tools.strToPlate(plate):'请输入车牌'}}</view>
+  </view>
+  <view class="flex justify-between align-center vip-item-view">
+    <view class="vip-form-key-view">联系人</view>
+    <input class="input-view" placeholder="车主姓名" value="{{owner}}" bindinput="ownerInput" bindfocus="closeBoard"></input>
+  </view>
+  <view class="flex justify-between align-center vip-item-view">
+    <view class="vip-form-key-view">联系电话</view>
+    <input class="input-view" placeholder="车主电话号码" value="{{phone}}" type="number" bindinput="phoneInput" bindfocus="closeBoard"></input>
+  </view>
+  <view class="flex justify-between align-center vip-item-view">
+    <view class="vip-form-key-view">选择车场</view>
+    <picker class="vip-form-value-view" range="{{parkList}}" range-key="ParkName" value="{{parkIndex}}" wx:if="{{parkList&&parkList.length>0}}" bindchange="changePark">
+      {{parkList[parkIndex].ParkName}}<text class="cuIcon-unfold"></text>
+    </picker>
+    <view class="vip-form-value-view" wx:else>{{tools.strlen(plate)<7?'请先输入完整车牌':'该车牌暂无车场可办理月卡'}}</view>
+  </view>
+  <view class="flex justify-between align-center vip-item-view">
+    <view class="vip-form-key-view">{{tools.isExpiration(nowTime,parkList[parkIndex].VipTime.ExpireTime)?'购买':'续费'}}类型</view>
+    <picker class="vip-form-value-view" range="{{typeList}}" range-key="name" value="{{typeIndex}}" wx:if="{{parkList[parkIndex].MonthPrice||parkList[parkIndex].QuarterPrice||parkList[parkIndex].HalfYearPrice||parkList[parkIndex].YearPrice}}" bindchange="changeType">
+      {{typeList[typeIndex].name}}<text class="cuIcon-unfold"></text>
+    </picker>
+    <view class="vip-form-value-view" wx:else>{{parkList&&parkList.length>0?'该车场暂不支持办理月卡':'未选择车场'}}</view>
+  </view>
+  <view class="flex justify-between align-center vip-item-view" wx:if="{{parkList[parkIndex].MonthPrice||parkList[parkIndex].QuarterPrice||parkList[parkIndex].HalfYearPrice||parkList[parkIndex].YearPrice}}">
+    <block wx:if="{{tools.isExpiration(nowTime,parkList[parkIndex].VipTime.ExpireTime)}}">
+      <view class="vip-form-key-view">生效时间</view>
+      <picker class="vip-form-value-view" mode="date" start="{{nowTime}}" value="{{startTime}}" bindchange="changeStartTime">
+        {{startTime}}<text class="cuIcon-unfold"></text>
+      </picker>
+    </block>
+    <block wx:else>
+      <view class="vip-form-key-view">续费时间</view>
+      <view class="vip-form-value-view">
+        {{parkList[parkIndex].VipTime.ExpireTime}}
+      </view>
+    </block>
+  </view>
+  <view class="flex justify-between align-center vip-item-view" wx:if="{{parkList[parkIndex].MonthPrice||parkList[parkIndex].QuarterPrice||parkList[parkIndex].HalfYearPrice||parkList[parkIndex].YearPrice}}">
+    <view class="vip-form-key-view">到期时间</view>
+    <view class="vip-form-value-view">{{endTime}}</view>
+  </view>
+  <view class="flex justify-between align-center vip-item-view">
+    <view class="vip-form-key-view">费用</view>
+    <view class="vip-form-value-view" style="color:red;">￥{{tools.toFix_2(price/100)}}</view>
+  </view>
+</view>
+<!-- 确认支付按钮 -->
+<view class="buy-button" bindtap="buyVip">
+  确认{{tools.isExpiration(nowTime,parkList[parkIndex].VipTime.ExpireTime)?'办理':'续费'}}
+</view>
+<!-- 查询进度弹窗 -->
+<view class='cu-load load-modal' wx:if="{{isLoading}}">
+  <image src='/images/logo.png' class='png' mode='aspectFit'></image>
+  <view class='gray-text'>加载中...</view>
+</view>
+<!-- 车牌输入键盘 -->
+<plate-keyboard id="my-keyboard" bind:finish="finish" bind:input="input" bind:close="close"></plate-keyboard>
+<!-- 提示消息 -->
+<i-message id="message"/>
+<!--底部TabBar 面板-->
+<view class="flex justify-around align-center cu-bar-view" wx:if="{{!isInputing}}">
+  <view class="cu-bar-item" bindtap="goPrePay">
+    <image class="cu-bar-img" src="/images/prepay.png"></image>
+    <text class="cu-bar-text">缴费离场</text>
+  </view>
+  <view class="cu-bar-item">
+    <image class="cu-bar-img" src="/images/buyvip_1.png"></image>
+    <text class="cu-bar-text-selected">月卡办理</text>
+  </view>
+  <view class="cu-bar-item" bindtap="goUser">
+    <image class="cu-bar-img" src="/images/user.png"></image>
+    <text class="cu-bar-text">个人中心</text>
+  </view>
+</view>

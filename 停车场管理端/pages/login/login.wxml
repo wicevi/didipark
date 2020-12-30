@@ -1,0 +1,33 @@
+<!--pages/login/login.wxml-->
+<view class="backimg-view">
+  <view class="logo-view">
+    <image class="cu-avatar xl round padding-sm bg-white" src="../../images/logo.png"></image>
+  </view>
+  <view class="app-name-view">
+    <text class="text-xl text-bold">欢迎使用滴滴停车管理系统</text>
+  </view>
+  <view class="input-all-view text-lg">
+    <view class="input-view flex align-center">
+      <text class="cuIcon-people padding-right-xs"></text>
+      <text class="flex-sub">账号</text>
+      <input class="flex-treble" bindinput="nameChange" value="{{username}}" type="text" placeholder="请输入用户名"/>
+    </view>
+    <view class="input-view flex align-center">
+      <text class="cuIcon-lock padding-right-xs"></text>
+      <text class="flex-sub">密码</text>
+      <input class="flex-treble" bindinput="pwChange" value="{{password}}" type="{{isVisible?'text':'password'}}" placeholder="请输入密码"/>
+      <text class="cuIcon-{{isVisible?'attention':'attentionforbid'}}" bindtap="visibleChange"></text>
+    </view>
+    <view class="login-btn my-btn bg-Primary text-center" bindtap="wxLogin">
+      登录
+    </view>
+  </view>
+  <view class="page-bottom text-center">
+    -----滴滴停车V1.0-----
+  </view>
+  <view class='cu-load load-modal' wx:if="{{isLogining}}">
+    <!-- <view class='cuIcon-emojifill text-orange'></view> -->
+    <image src='/images/logo.png' class='png' mode='aspectFit'></image>
+    <view class='gray-text'>登录中...</view>
+  </view>
+</view>

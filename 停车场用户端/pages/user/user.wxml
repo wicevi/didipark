@@ -1,0 +1,60 @@
+<!--pages/user/user.wxml-->
+<view class="backimg-view">
+  <view class="logo-view">
+    <image class="cu-avatar xl round bg-white" src="{{userInfo.avatarUrl?userInfo.avatarUrl:'/images/logo.png'}}"></image>
+  </view>
+  <view class="app-name-view" wx:if="{{userInfo}}">
+    <text class="text-bold">{{userInfo.nickName}}</text>
+  </view>
+  <view class="app-name-btn" wx:else>
+    <button class="get-info-btn" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 授权获取 </button>
+  </view>
+</view>
+<!--菜单-->
+<view class="cu-list menu card-menu shadow-lg radius">
+  <view class="cu-item arrow" bindtap="payHistory">
+    <button class="cu-btn content">
+      <image src="/images/parkingBillIcon.png" class="user-menu-img"></image>
+      <text class="text-grey padding-left-xs">缴费记录</text>
+    </button>
+  </view>
+  <view class="cu-item arrow">
+    <button class="cu-btn content" bindtap="vipManage">
+      <image src="/images/vip.png" class="user-menu-img"></image>
+      <text class="text-grey padding-left-xs">月卡管理</text>
+    </button>
+  </view>
+  <view class="cu-item arrow">
+    <button class="cu-btn content" bindtap="couponManage">
+      <image src="/images/couponIcon.png" class="user-menu-img"></image>
+      <text class="text-grey padding-left-xs">优惠卷</text>
+    </button>
+  </view>
+  <view class="cu-item arrow">
+    <button class="cu-btn content" open-type="feedback">
+      <image src="/images/feedback.png" class="user-menu-img"></image>
+      <text class="text-grey padding-left-xs">意见反馈</text>
+    </button>
+  </view>
+  <view class="cu-item arrow">
+    <button class="cu-btn content" open-type="contact">
+      <image src="/images/contact.png" class="user-menu-img"></image>
+      <text class="text-grey padding-left-xs">联系我们</text>
+    </button>
+  </view>
+</view>
+<!--底部TabBar 面板-->
+<view class="flex justify-around align-center cu-bar-view" wx:if="{{!isInputing}}">
+  <view class="cu-bar-item" bindtap="goPrePay">
+    <image class="cu-bar-img" src="/images/prepay.png"></image>
+    <text class="cu-bar-text">缴费离场</text>
+  </view>
+  <view class="cu-bar-item" bindtap="goBuyVip">
+    <image class="cu-bar-img" src="/images/buyvip.png"></image>
+    <text class="cu-bar-text">月卡办理</text>
+  </view>
+  <view class="cu-bar-item">
+    <image class="cu-bar-img" src="/images/user_1.png"></image>
+    <text class="cu-bar-text-selected">个人中心</text>
+  </view>
+</view>

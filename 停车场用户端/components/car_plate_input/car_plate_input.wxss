@@ -1,0 +1,82 @@
+/* components/car_plate_input/car_plate_input.wxss */
+@import "/colorui/main.wxss";
+@import "/colorui/icon.wxss";
+
+.bg-view{
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(121, 121, 121, 0.507);
+  z-index: 1001;
+  /* -moz-opacity: 0.7; */
+  /* opacity: 0.70; */
+  /* filter: alpha(opacity=70); */
+}
+.show-view{
+  text-align: center;
+  position: absolute;
+  top: 16%;
+  left: 10%;
+  width: 80%;
+  padding: 5%;
+  background-color: #ffffff;
+  border-radius: 20rpx;
+  z-index: 1002;
+}
+.input-plate-view{
+  width: 80%;
+  margin: 50rpx auto 0rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 46rpx;
+  text-align: center;
+  border-bottom: 2rpx solid #666666;
+}
+.input-plate-view-selected{
+  width: 80%;
+  margin: 50rpx auto 0rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 46rpx;
+  text-align: center;
+  border-bottom: 2rpx solid #2d8cf0;
+}
+.query-pay-btn{
+  width: 42%;
+  margin: 40rpx auto 60rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 30rpx;
+  font-weight:500;
+  background-color: #2d8cf0;
+  color: white;
+  border-radius: 999rpx;
+  text-align: center;
+}
+.query-pay-btn:active{
+  background-color: #2b85e4;
+  color: white;
+}
+.history-view{
+  width: 100%;
+  margin: 0rpx auto;
+}
+.history-title-view{
+  border-bottom: 1rpx solid #dddee1;
+  padding: 5rpx 10rpx;
+}
+.history-title-item{
+  font-size: 28rpx;
+}
+.history-plate-view{
+  display: inline-block;
+  padding: 8rpx 12rpx;
+  border:1rpx solid #dddee1;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+}
+.history-plate-view:active{
+  color: #2d8cf0;
+}

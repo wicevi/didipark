@@ -1,0 +1,34 @@
+<!--index.wxml-->
+<!--顶部沉浸式导航栏-->
+<view class="cu-custom" style="height:{{CustomBar}}px;">
+  <view class="cu-bar bg-Primary" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+    <view class="text-lg text-bold text-left margin-left-sm">
+    {{PageCur=='control'?'控制中心':(PageCur=='user'?'个人中心':'首页')}}
+    </view>
+  </view>
+</view>
+<!--内容-->
+<home showReport="{{reportData}}" wx:if="{{PageCur=='home'}}" bind:Fresh="updateReportData"></home>
+<control bind:cameraChange="cameraChange" bind:NoPlateOutModeChange="NoPlateOutModeChange" bind:controlEvent="controlEvent" controlSet="{{controlData}}" wx:if="{{PageCur=='control'}}"></control>
+<user wx:if="{{PageCur=='user'}}" bind:userMenuEvent="userMenuEvent" userData="{{userData}}"></user>
+<!--底部标签-->
+<view class="cu-bar tabbar bg-white shadow foot">
+  <view class="action" bindtap="navChange" data-cur="home">
+    <view class='cuIcon-cu-image'>
+      <text class="cuIcon-{{PageCur=='home'?'homefill text-cyan':'home text-gray'}}"></text>
+    </view>
+    <view class="{{PageCur=='home'?'text-cyan':'text-gray'}}">首页</view>
+  </view>
+  <view class="action" bindtap="navChange" data-cur="control">
+    <view class='cuIcon-cu-image'>
+      <text class="cuIcon-{{PageCur=='control'?'repairfill text-cyan':'repair text-gray'}}"></text>
+    </view>
+    <view class="{{PageCur=='control'?'text-cyan':'text-gray'}}">控制</view>
+  </view>
+  <view class="action" bindtap="navChange" data-cur="user">
+    <view class='cuIcon-cu-image'>
+      <text class="cuIcon-{{PageCur=='user'?'peoplefill text-cyan':'people text-gray'}}"></text>
+    </view>
+    <view class="{{PageCur=='user'?'text-cyan':'text-gray'}}">我的</view>
+  </view>
+</view>

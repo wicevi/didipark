@@ -1,0 +1,17 @@
+/* pages/menupages/history_report/history_report.wxss */
+.report-info-view-title{
+  padding-bottom: 6rpx;
+  border-bottom: 2rpx solid #d8d8d8;
+}
+.top-bar-item{
+  margin: 0rpx auto;
+}
+.data-info-view{
+  width: 90%;
+  margin: 30rpx auto;
+  border-radius: 12rpx;
+}
+.data-info-top{
+  border-bottom: 1rpx solid #dddee1;
+  padding-bottom: 10rpx;
+}

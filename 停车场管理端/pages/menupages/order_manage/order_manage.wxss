@@ -1,0 +1,37 @@
+/* pages/menupages/order_manage/order_manage.wxss */
+.top-bar-item{
+  margin: 0rpx auto;
+}
+.order-info-view-title{
+  padding-bottom: 6rpx;
+  border-bottom: 2rpx solid #d8d8d8;
+}
+.order-item-value-view{
+  display: inline-block;
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #666666;
+}
+.search-btn{
+  border-radius: 9999rpx;
+}
+
+
+
+
+
+
+
+
+
+.query-btn{
+  padding: 6rpx 10rpx 8rpx;
+}
+.order-info-view{
+  border-radius: 16rpx;
+}
+.order-info-item{
+  padding: 10rpx 0rpx;
+}

@@ -1,0 +1,12 @@
+<!--pages/menupages/blacklist_manage/blacklist_manage.wxml-->
+<!-- 添加黑名单框 -->
+<view class="cu-bar search bg-white shadow">
+  <view class="search-form round">
+    <text class="cuIcon-search"></text>
+    <input type="text" placeholder="输入要添加到黑名单的车牌号" confirm-type="search" value="{{searchPlate}}" bindinput="inputPlate"></input>
+    <text class="cuIcon-close" wx:if="{{searchPlate}}" bindtap="clearPlate"></text>
+  </view>
+  <view class="action">
+    <view class="my-btn bg-Primary padding-tb-xs padding-lr-sm search-btn" style="border-radius: 999rpx;" bindtap="searchVipCar">搜索</view>
+  </view>
+</view>

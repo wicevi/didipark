@@ -1,0 +1,51 @@
+<!--components/car_plate_keyboard.wxml-->
+<view class="keyboard-view" wx:if="{{isShowKeyboard}}">
+  <!-- 顶部边框 -->
+  <view class="keyboard-top-view flex align-center justify-between shadow">
+    <view class="keyboard-logo text-grey">嘀嘀系统车牌输入法</view>
+    <view class="close-plate-btn" bindtap="closeKeyboard">收起<text class="cuIcon-unfold"></text></view>
+  </view>
+  <!-- 省份简称以及数字按键行 -->
+  <view class="number-line-view flex align-center justify-center">
+    <block wx:if="{{!(!isEnableNumber&&showType==1)}}">
+      <view class="keyboard-item Shadow" wx:for="{{number_line[showType]}}" data-value="{{item}}" bindtap="keyTap" wx:key="key">
+        <text>{{item}}</text>
+      </view>
+    </block>
+    <block wx:if="{{!isEnableNumber&&showType==1}}">
+      <view class="keyboard-item Shadow text-grey" wx:for="{{number_line[showType]}}" data-value="{{item}}" wx:key="key">
+        <text>{{item}}</text>
+      </view>
+    </block>
+  </view>
+  <!-- 省份简称以及字母行 -->
+  <view class="first-line-view flex align-center justify-center">
+    <view class="keyboard-item Shadow" wx:for="{{first_line[showType]}}" data-value="{{item}}" bindtap="keyTap" wx:key="key">
+      <text>{{item}}</text>
+    </view>
+  </view>
+  <view class="second-line-view flex align-center justify-center">
+    <view class="keyboard-item shadow" wx:for="{{second_line[showType]}}" data-value="{{item}}" bindtap="keyTap" wx:key="key">
+      <text>{{item}}</text>
+    </view>
+  </view>
+  <view class="third-line-view flex align-center justify-center">
+    <block wx:for="{{third_line[showType]}}" wx:key="key">
+      <view class="keyboard-item{{item==' '?'-kg':(item=='@'||item=='<'?'-onehalf':'')}} shadow" data-value="{{item}}" bindtap="keyTap">
+        <text wx:if="{{item!=' '&&item!='@'&&item!='<'}}">{{item}}</text>
+        <text wx:if="{{item=='@'}}" class="keyboard-item-abc">{{showType==0?'ABC':'地区'}}</text>
+        <text wx:if="{{item=='<'}}" class="cuIcon-backdelete keyboard-item-del"></text>
+      </view>
+    </block>
+  </view>
+  <!-- 省份简称以及完成清除行 -->
+  <view class="last-line-view flex align-center justify-center">
+    <block wx:for="{{last_line[showType]}}" wx:key="key">
+      <view class="keyboard-item{{item==' '?'-kg':(item=='#'||item=='$'?'-two':'')}} shadow {{item=='#'?'keyboard-item-clear':(item=='$'?'keyboard-item-finish':'')}}" data-value="{{item}}" bindtap="keyTap">
+        <text wx:if="{{item!=' '&&item!='#'&&item!='$'}}">{{item}}</text>
+        <text wx:if="{{item=='#'}}">清空</text>
+        <text wx:if="{{item=='$'}}">完成</text>
+      </view>
+    </block>
+  </view>
+</view>

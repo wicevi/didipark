@@ -1,0 +1,85 @@
+/* pages/rent/rent.wxss */
+.vip-form-top-border{
+  margin: 20rpx 20rpx 0rpx;
+  display: flex;
+  padding-top: 15rpx;
+  color: #f0f0f0;
+  box-sizing: border-box;
+  background: radial-gradient(transparent 0, transparent 10rpx, #19be6b 10rpx);
+  background-size: 38rpx 38rpx;
+  background-position: 4px 20rpx;
+  background-color: #f0f0f0;
+}
+.vip-form-title-view{
+  padding: 36rpx 0rpx 36rpx;
+  margin: 0rpx 20rpx ;
+  font-size: 42rpx;
+  background-color: #19be6b;
+  color: white;
+  text-align: center;
+}
+.vip-form-view{
+  margin: 0rpx 20rpx ;
+  padding: 20rpx 30rpx;
+  background-color: white;
+  box-shadow: 0rpx 15rpx 10rpx -15rpx #0000003b;
+}
+.vip-form-border{
+  border-top: 2rpx solid #e9eaec;
+}
+.vip-item-view{
+  margin: 20rpx;
+}
+.vip-form-key-view{
+  color: #777777;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 32rpx;
+}
+.vip-form-value-view{
+  width: 60%;
+  color: #4b4b4b;
+  font-weight: 520;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 30rpx; 
+  text-align: right;
+}
+.input-view{
+  display: block;
+  width: 60%;
+  height: 60rpx;
+  line-height: 48rpx;
+  font-size: 30rpx;
+  text-align: center;
+  border: 2rpx solid #dddee1;
+  border-radius: 8rpx;
+  padding: 6rpx;
+}
+.input-view-selected{
+  display: block;
+  width: 60%;
+  height: 60rpx;
+  line-height: 48rpx;
+  font-size: 30rpx;
+  text-align: center;
+  border: 2rpx solid #2d8cf0;
+  border-radius: 8rpx;
+  padding: 6rpx;
+}
+.buy-button{
+  background-color: #19be6b;
+  color: #ffffff;
+  position: fixed;
+  width: 92%;
+  height: 80rpx;
+  line-height: 80rpx;
+  left: 4%;
+  bottom: 150rpx;
+  border-radius: 999rpx;
+  text-align: center;
+  box-shadow: 0rpx 15rpx 10rpx -15rpx #0000003b;
+}
+.buy-button:active{
+  background-color: #7a7a7a;
+}

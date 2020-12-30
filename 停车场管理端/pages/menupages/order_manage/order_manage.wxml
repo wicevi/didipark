@@ -1,0 +1,172 @@
+<!--pages/menupages/order_manage/order_manage.wxml-->
+<wxs module="tools" src="../../../utils/tool.wxs"></wxs>
+<!-- 搜索框 -->
+<view class="cu-bar search bg-white shadow">
+  <view class="search-form round">
+    <text class="cuIcon-search"></text>
+    <input type="text" placeholder="输入车牌号搜索订单" confirm-type="search" value="{{searchPlate}}" bindinput="inputPlate"></input>
+    <text class="cuIcon-close" wx:if="{{searchPlate}}" bindtap="clearPlate"></text>
+  </view>
+  <view class="action">
+    <view class="my-btn bg-Primary padding-tb-xs padding-lr-sm search-btn" style="border-radius: 999rpx;" bindtap="searchOrder">搜索</view>
+  </view>
+</view>
+<!-- 订单列表标题 -->
+<view class="flex align-center text-lg text-bold text-black margin-lr order-info-view-title margin-top">
+  <view class="flex-sub text-center">
+    <text class="padding-bottom-xs top-bar-item padding-lr-xs">车牌号</text>
+  </view>
+  <view class="flex-sub text-center">
+    <text class="padding-bottom-xs top-bar-item padding-lr-sm">{{PageCur=='inOrder'?'进场':'离场'}}时间</text>
+  </view>
+</view>
+<!--订单列表为空-->
+<view class="margin align-center flex" wx:if="{{!orderList||orderList.length==0}}">
+  <view class="flex-sub"></view>
+  <image src="/images/sad.png" style="width:60rpx;height:60rpx;"></image>
+  <text class="text-bold text-xl margin-left-xs">没有找到订单</text>
+  <view class="flex-sub"></view>
+</view>
+<!--详细订单列表-->
+<view class="order-info-view margin-lr margin-tb-sm padding-tb-xs bg-white shadow" wx:for="{{orderList}}" data-index="{{index}}" bindtap="tapOrder">
+  <view class="flex align-center">
+    <view class="flex-sub text-center">
+      <view class="order-item-value-view">
+        {{tools.strToPlate(item.Plate)}}
+      </view>
+    </view>
+    <view class="flex-sub text-center">
+      <view class="order-item-value-view">
+        {{PageCur=='inOrder'?item.InTime:item.OutTime}}
+      </view>
+    </view>
+  </view>
+</view>
+<view class="padding-xs"></view>
+<!-- 订单详情弹窗 -->
+<view class="cu-modal {{isOpenModal_info?'show':''}}">
+  <view class="cu-dialog text-lg">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content text-bold text-xl">订单详情</view>
+      <view class="action" bindtap="closeModal_info">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-sm bg-gray text-black">
+      <!-- 车牌号和订单状态 -->
+      <view class="flex align-center margin-xs margin-tb-sm">
+        <view class="flex-sub">
+          <view>车牌号码</view>
+        </view>
+        <view class="flex align-center justify-between flex-treble bg-white padding-xs   shadow radius">
+          <view class="order-item-value-view">{{tools.strToPlate(orderList[orderIndex].Plate)}}</view>
+          <view class="cu-tag line-{{!orderList[orderIndex].PayStatus||orderList[orderIndex].PayStatus=='已支付'||orderList[orderIndex].PayStatus=='无需缴费'?'green':'red'}}">{{orderList[orderIndex].PayStatus?orderList[orderIndex].PayStatus:'在场车辆'}}</view>
+        </view>
+      </view>
+      <!-- 进场时间 -->
+      <view class="flex align-center margin-xs margin-tb-sm">
+        <view class="flex-sub">
+          <view>进场时间</view>
+        </view>
+        <view class="flex align-center justify-between flex-treble bg-white padding-xs   shadow radius">
+          <view class="order-item-value-view">{{orderList[orderIndex].InTime?orderList[orderIndex].InTime:'无入场记录'}}</view>
+        </view>
+      </view>
+      <!-- 进场图片 -->
+      <view class="flex align-start margin-xs margin-tb-sm">
+        <view class="flex-sub">
+          <view>进场照片</view>
+        </view>
+        <view class="flex align-center justify-center flex-treble bg-white padding-xs shadow radius" bindtap="viewImage" data-url="http://47.103.217.112{{orderList[orderIndex].InImage}}" wx:if="{{tools.strlen(orderList[orderIndex].InImage)>10}}">
+          <image style="width:432rpx;height:243rpx;" src="http://47.103.217.112{{orderList[orderIndex].InImage}}"></image>
+        </view>
+        <view class="flex align-center justify-between flex-treble bg-white padding-xs shadow radius" wx:if="{{tools.strlen(orderList[orderIndex].InImage)<=10}}">
+          <view class="order-item-value-view">无进场照片</view>
+        </view>
+      </view>
+      <!-- 离场时间 -->
+      <view class="flex align-center margin-xs margin-tb-sm" wx:if="{{orderList[orderIndex].OutTime}}">
+        <view class="flex-sub">
+          <view>离场时间</view>
+        </view>
+        <view class="flex align-center justify-between flex-treble bg-white padding-xs shadow radius">
+          <view class="order-item-value-view">{{orderList[orderIndex].OutTime?orderList[orderIndex].OutTime:'暂未离场'}}</view>
+        </view>
+      </view>
+     <!-- 离场图片 -->
+     <view class="flex align-start margin-xs margin-tb-sm" wx:if="{{orderList[orderIndex].OutTime}}">
+        <view class="flex-sub">
+          <view>离场照片</view>
+        </view>
+        <view class="flex align-center justify-center flex-treble bg-white padding-xs shadow radius" bindtap="viewImage" data-url="http://47.103.217.112{{orderList[orderIndex].OutImage}}" wx:if="{{tools.strlen(orderList[orderIndex].OutImage)>10}}">
+          <image style="width:432rpx;height:243rpx;" src="http://47.103.217.112{{orderList[orderIndex].OutImage}}"></image>
+        </view>
+        <view class="flex align-center justify-between flex-treble bg-white padding-xs   shadow radius" wx:if="{{tools.strlen(orderList[orderIndex].OutImage)<=10}}">
+          <view class="order-item-value-view">无离场照片</view>
+        </view>
+      </view>
+      <!-- 停车时长 -->
+      <view class="flex align-center margin-xs margin-tb-sm">
+        <view class="flex-sub">
+          <view>停车时长</view>
+        </view>
+        <view class="flex align-center justify-between flex-treble bg-white padding-xs   shadow radius">
+          <view class="order-item-value-view">{{orderList[orderIndex].Stay?orderList[orderIndex].Stay:'无记录'}}</view>
+        </view>
+      </view>
+      <!-- 停车费用 -->
+      <view class="flex align-center margin-xs margin-tb-sm" wx:if="{{orderList[orderIndex].Price!=null}}">
+        <view class="flex-sub">
+          <view>停车费用</view>
+        </view>
+        <view class="flex align-center justify-between flex-treble bg-white padding-xs   shadow radius">
+          <view class="text-xxl text-bold text-red text-price">{{tools.toFix_2(orderList[orderIndex].Price/100)}}</view>
+        </view>
+        <!-- 结算时间 -->
+        <view class="flex align-center margin-xs margin-tb-sm" wx:if="{{tool.strlen(orderList[orderIndex].PayTime)>10}}">
+        <view class="flex-sub">
+          <view>离场时间</view>
+        </view>
+        <view class="flex align-center justify-between flex-treble bg-white padding-xs shadow radius">
+          <view class="order-item-value-view">{{orderList[orderIndex].PayTime}}</view>
+        </view>
+      </view>
+      </view>
+    </view>
+    <view class="cu-bar bg-white justify-end">
+      <view class="action">
+        <!-- <view class="margin-left padding-xs my-btn bg-blue" bindtap="finishAndOpen">
+          <text>结算并开闸</text>
+        </view> -->
+        <view class="margin-left padding-xs padding-lr my-btn bg-red" bindtap="finish" wx:if="{{!orderList[orderIndex].OutTime}}">
+          <text>结算</text>
+        </view>
+        <view class="margin-left padding-xs padding-lr my-btn bg-grey" bindtap="closeModal_info">
+          <text>关闭</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<!--底部标签-->
+<view class='cu-tabbar-height'></view>
+<view class="cu-bar tabbar bg-white shadow foot">
+  <view class="action" bindtap="navChange" data-cur="inOrder">
+    <view class='cuIcon-cu-image'>
+      <image src="/images/in_order{{PageCur=='inOrder'?'_selected':''}}.png"></image>
+    </view>
+    <view class="{{PageCur=='inOrder'?'text-primer':'text-gray'}}">在场订单</view>
+  </view>
+  <view class="action" bindtap="navChange" data-cur="outOrder">
+    <view class='cuIcon-cu-image'>
+      <image src="/images/out_order{{PageCur=='outOrder'?'_selected':''}}.png"></image>
+    </view>
+    <view class="{{PageCur=='outOrder'?'text-primer':'text-gray'}}">离场订单</view>
+  </view>
+</view>
+<!-- 加载进度弹窗 -->
+<view class='cu-load load-modal' wx:if="{{isLoading}}">
+  <!-- <view class='cuIcon-emojifill text-orange'></view> -->
+  <image src='/images/logo.png' class='png' mode='aspectFit'></image>
+  <view class='gray-text'>加载数据中...</view>
+</view>

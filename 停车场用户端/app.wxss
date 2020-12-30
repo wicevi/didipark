@@ -1,0 +1,24 @@
+/**app.wxss**/
+@import "colorui/main.wxss";
+@import "colorui/icon.wxss";
+
+.cu-bar-view{
+  position: fixed;
+  bottom: 0rpx;
+  width: 100%;
+  height: 120rpx;
+  background-color: #ffffff;
+  box-shadow: 0rpx 15rpx -10rpx -15rpx #0000003b;
+}
+.cu-bar-img{
+  display: block;
+  width: 60rpx;
+  height: 60rpx;
+  margin: 0rpx auto;
+}
+.cu-bar-text{
+  color: #80848f;
+}
+.cu-bar-text-selected{
+  color: #2b85e4;
+}

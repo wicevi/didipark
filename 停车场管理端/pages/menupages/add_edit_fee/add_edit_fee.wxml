@@ -1,0 +1,85 @@
+<!--pages/menupages/add_edit_fee/add_edit_fee.wxml-->
+<form bindsubmit="submitFee">
+	<view class="cu-form-group margin-top">
+		<view class="title">策略名称</view>
+		<input name="feeName" placeholder="例：金色花园临时车收费" value="{{tempFee==null?'':tempFee.feeName}}"></input>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">免费时长</view>
+    <input name="freeTime" type="number" placeholder="停车前几分钟不收费" value="{{tempFee==null?'':tempFee.freeTime/60}}"></input>
+    <text>分钟</text>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">起步时长</view>
+    <input name="startTime" type="number" placeholder="超过免费时长 几分钟内为起步价" value="{{tempFee==null?'':tempFee.startTime/60}}"></input>
+    <text>分钟</text>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">起步价格</view>
+    <input name="startPrice" type="digit" value="{{tempFee==null?'':tempFee.startPrice/100}}"></input>
+    <text>元</text>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">计费步长</view>
+    <input name="stepTime" type="number" placeholder="超过起步时长 每几分钟为计费单价" value="{{tempFee==null?'':tempFee.stepTime/60}}"></input>
+    <text>分钟</text>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">计费单价</view>
+    <input name="stepPrice" type="digit" value="{{tempFee==null?'':tempFee.stepPrice/100}}"></input>
+    <text>元</text>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">收费限制</view>
+    <input wx:if="{{isMaxFee}}" type="digit" placeholder="一天最多产生的停车费用" name="dayMaxFee" value="{{tempFee==null?'':tempFee.dayMaxFee/100}}"></input>
+    <text wx:if="{{isMaxFee}}" class="margin-right">元</text>
+    <switch checked="{{isMaxFee}}" bindchange="switchMaxFee"></switch>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">{{isAllNight?'包夜价格':'包夜功能'}}</view>
+    <input wx:if="{{isAllNight}}" type="digit" placeholder="在包夜时段产生的费用" name="allNightPrice" value="{{tempFee==null?'':tempFee.allNightPrice/100}}"></input>
+    <text wx:if="{{isAllNight}}" class="margin-right">元</text>
+    <switch checked="{{isAllNight}}" bindchange="switchAllNight"></switch>
+  </view>
+  <view class="cu-form-group" wx:if="{{isAllNight}}">
+		<view class="title">包夜时段</view>
+    <picker class="text-center" mode="time" value="{{startTime}}" bindchange="startTimeChange">
+      <text class="margin-right-xs">当日</text>
+      <text class="text-bold">{{startTime}}</text>
+      <text class="cuIcon-unfold"></text>
+    </picker>
+    <text>到</text>
+    <picker class="text-center" mode="time" value="{{endTime}}" bindchange="endTimeChange">
+      <text class="margin-right-xs">次日</text>
+      <text class="text-bold">{{endTime}}</text>
+      <text class="cuIcon-unfold"></text>
+    </picker>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">{{isMonth?'包月价格':'包月功能'}}</view>
+    <input wx:if="{{isMonth}}" type="digit" placeholder="免费停车一个月的费用" name="monthPrice" value="{{tempFee==null?'':tempFee.monthPrice/100}}"></input>
+    <text wx:if="{{isMonth}}" class="margin-right">元</text>
+    <switch checked="{{isMonth}}" bindchange="switchMonth"></switch>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">{{isQuarter?'包季价格':'包季功能'}}</view>
+    <input wx:if="{{isQuarter}}" type="digit" placeholder="免费停车一个季度的费用" name="quarterPrice" value="{{tempFee==null?'':tempFee.quarterPrice/100}}"></input>
+    <text wx:if="{{isQuarter}}" class="margin-right">元</text>
+    <switch checked="{{isQuarter}}" bindchange="switchQuarter"></switch>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">{{isHalfYear?'包半年价格':'包半年功能'}}</view>
+    <input wx:if="{{isHalfYear}}" type="digit" placeholder="免费停车半年的费用" name="halfYearPrice" value="{{tempFee==null?'':tempFee.halfYearPrice/100}}"></input>
+    <text wx:if="{{isHalfYear}}" class="margin-right">元</text>
+    <switch checked="{{isHalfYear}}" bindchange="switchHalfYear"></switch>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">{{isYear?'包整年价格':'包整年功能'}}</view>
+    <input wx:if="{{isYear}}" type="digit" placeholder="免费停车一年的费用" name="yearPrice" value="{{tempFee==null?'':tempFee.yearPrice/100}}"></input>
+    <text wx:if="{{isYear}}" class="margin-right">元</text>
+    <switch checked="{{isYear}}" bindchange="switchYear"></switch>
+  </view>
+  <view class="padding flex flex-direction">
+    <button form-type="submit" class="cu-btn bg-Primary lg">{{tempFee==null?'添加':'确认修改'}}</button>
+  </view>
+</form>

@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "home":"../barpages/home/home",
+    "control":"../barpages/control/control",
+    "user":"../barpages/user/user"
+  },
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": true
+}

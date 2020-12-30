@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "plate-keyboard":"/components/car_plate_keyboard/car_plate_keyboard",
+    "i-message": "../../dist/message/index"
+  },
+  "navigationBarTitleText": "缴费离场",
+  "navigationBarBackgroundColor": "#2d8cf0",
+  "navigationBarTextStyle": "white"
+}

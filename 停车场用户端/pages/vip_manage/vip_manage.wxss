@@ -1,0 +1,15 @@
+/* pages/vip_manage/vip_manage.wxss */
+.result-info-view{
+  text-align: center;
+  padding: 8rpx 0rpx;
+  margin: 50rpx 40rpx;
+  border-bottom: 2rpx solid #000;
+}
+.buy-vip-btn{
+  border-radius: 999rpx;
+  padding: 8rpx 30rpx;
+  font-size: 28rpx;
+}
+.buy-vip-btn:active{
+  background-color: rgb(167, 167, 167);
+}
