@@ -470,5 +470,8 @@ Page({
       controlData:this.data.controlData,
       userData:this.data.userData,
     });
-  }
+  },
+  onShareAppMessage(){
+
+  },
 })

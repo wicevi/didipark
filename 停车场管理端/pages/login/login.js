@@ -129,6 +129,9 @@ Page({
             delta: 0,
           })
         }else{
+          wx.removeStorage({
+            key: 'Appsession',
+          })
           wx.showModal({
             title: '登录失败',
             content: res.data.Message,

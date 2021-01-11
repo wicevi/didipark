@@ -39,13 +39,13 @@ Component({
         icon: 'time',
         path:'/pages/menupages/history_report/history_report'
       },
-      // {
-      //   title: '黑名单管理',
-      //   name: 'blacklist manage',
-      //   color: 'black',
-      //   icon: 'peoplelist',
-      //   path:'/pages/menupages/blacklist_manage/blacklist_manage'
-      // },
+      {
+        title: '黑名单管理',
+        name: 'blacklist manage',
+        color: 'black',
+        icon: 'peoplelist',
+        path:'/pages/menupages/blacklist_manage/blacklist_manage'
+      },
     ],
   },
   methods:{

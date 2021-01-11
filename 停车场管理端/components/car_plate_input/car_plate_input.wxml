@@ -1,0 +1,30 @@
+<!--components/car_plate_input/car_plate_input.wxml-->
+<wxs module="tools" src="../../utils/tool.wxs"></wxs>
+<view class="bg-view" wx:if="{{isShow}}">
+<view class="show-view">
+  <view class="close-text" bindtap="hideInput">
+    <text class="cuIcon-close text-lg text-red"></text>
+  </view>
+  <view class="inpu-view">
+    <view class="{{plate?'text-black text-bold':'text-grey'}}    input-plate-view{{isInputing?'-selected':''}} shadow-blur" bindtap="openBoard">{{plate?tools.strToPlate(plate):'请输入车牌号码'}}</view>
+    <view class="query-pay-btn shadow-blur" bindtap="confirmPlate">确认</view>
+  </view>
+<!-- 历史记录 -->
+<!-- <view class="history-view">
+  <view class="flex justify-between align-center text-grey history-title-view margin-tb-xs">
+    <view class="history-title-item">历史车牌输入</view>
+    <view></view>
+  </view>
+  <view class="grid col-3" wx:if="{{historyPlates&&historyPlates.length>0}}">
+    <view class="text-center margin-tb-xs" wx:for="{{historyPlates}}" wx:key="key">
+      <view class="history-plate-view" data-value="{{item}}" bindtap="fastInput">{{tools.strToPlate(item)}}</view>
+    </view>
+  </view>
+    <view class="text-center margin" wx:if="{{!historyPlates||historyPlates.length==0}}">
+      暂无历史车牌记录
+    </view>
+  </view> -->
+</view>
+<!-- 车牌输入键盘 -->
+<plate-keyboard id="my-keyboard" bind:finish="finish" bind:input="input" bind:close="close"></plate-keyboard>
+</view>

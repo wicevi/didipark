@@ -77,8 +77,8 @@
         <view class="flex-sub">
           <view>进场照片</view>
         </view>
-        <view class="flex align-center justify-center flex-treble bg-white padding-xs shadow radius" bindtap="viewImage" data-url="http://47.103.217.112{{orderList[orderIndex].InImage}}" wx:if="{{tools.strlen(orderList[orderIndex].InImage)>10}}">
-          <image style="width:432rpx;height:243rpx;" src="http://47.103.217.112{{orderList[orderIndex].InImage}}"></image>
+        <view class="flex align-center justify-center flex-treble bg-white padding-xs shadow radius" bindtap="viewImage" data-url="http://shuzhi.xyz{{orderList[orderIndex].InImage}}" wx:if="{{tools.strlen(orderList[orderIndex].InImage)>10}}">
+          <image style="width:432rpx;height:243rpx;" src="http://shuzhi.xyz{{orderList[orderIndex].InImage}}"></image>
         </view>
         <view class="flex align-center justify-between flex-treble bg-white padding-xs shadow radius" wx:if="{{tools.strlen(orderList[orderIndex].InImage)<=10}}">
           <view class="order-item-value-view">无进场照片</view>
@@ -98,8 +98,8 @@
         <view class="flex-sub">
           <view>离场照片</view>
         </view>
-        <view class="flex align-center justify-center flex-treble bg-white padding-xs shadow radius" bindtap="viewImage" data-url="http://47.103.217.112{{orderList[orderIndex].OutImage}}" wx:if="{{tools.strlen(orderList[orderIndex].OutImage)>10}}">
-          <image style="width:432rpx;height:243rpx;" src="http://47.103.217.112{{orderList[orderIndex].OutImage}}"></image>
+        <view class="flex align-center justify-center flex-treble bg-white padding-xs shadow radius" bindtap="viewImage" data-url="http://shuzhi.xyz{{orderList[orderIndex].OutImage}}" wx:if="{{tools.strlen(orderList[orderIndex].OutImage)>10}}">
+          <image style="width:432rpx;height:243rpx;" src="http://shuzhi.xyz{{orderList[orderIndex].OutImage}}"></image>
         </view>
         <view class="flex align-center justify-between flex-treble bg-white padding-xs   shadow radius" wx:if="{{tools.strlen(orderList[orderIndex].OutImage)<=10}}">
           <view class="order-item-value-view">无离场照片</view>

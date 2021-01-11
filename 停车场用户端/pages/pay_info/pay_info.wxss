@@ -7,7 +7,7 @@
   box-sizing: border-box;
   background: radial-gradient(transparent 0, transparent 10rpx, #2d8cf0 10rpx);
   background-size: 38rpx 38rpx;
-  background-position: 4px 20rpx;
+  background-position: 4rpx 20rpx;
   background-color: #f0f0f0;
 }
 .pay-info-top-view{

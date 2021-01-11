@@ -1,12 +1,51 @@
 <!--pages/menupages/blacklist_manage/blacklist_manage.wxml-->
+<wxs module="tools" src="../../../utils/tool.wxs"></wxs>
 <!-- 添加黑名单框 -->
-<view class="cu-bar search bg-white shadow">
-  <view class="search-form round">
-    <text class="cuIcon-search"></text>
-    <input type="text" placeholder="输入要添加到黑名单的车牌号" confirm-type="search" value="{{searchPlate}}" bindinput="inputPlate"></input>
-    <text class="cuIcon-close" wx:if="{{searchPlate}}" bindtap="clearPlate"></text>
+<view class="bg-white shadow flex align-center padding-sm justify-between">
+  <view class="text-black text-lg">
+    黑名单数量：<text class="text-red text-xl text-bold">{{blacklist.length}}</text>
   </view>
-  <view class="action">
-    <view class="my-btn bg-Primary padding-tb-xs padding-lr-sm search-btn" style="border-radius: 999rpx;" bindtap="searchVipCar">搜索</view>
+  <view class="flex">
+    <view class="my-btn bg-Primary" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="add_btn_click" wx:if="{{!is_edit}}">
+      <text>添加</text>
+      <text class="cuIcon-add padding-left-xs"></text>
+    </view>
+    <view class="my-btn bg-Primary margin-left-sm" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="edit_btn_click" wx:if="{{!is_edit}}">
+      <text>编辑</text>
+      <text class="cuIcon-write padding-left-xs"></text>
+    </view>
+    <view class="my-btn bg-grey margin-left-sm" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="edit_btn_click" wx:if="{{is_edit}}">
+      <text>退出编辑</text>
+    </view>
   </view>
+</view>
+<!-- 黑名单为空 -->
+<view class="margin align-center flex" wx:if="{{!blacklist||blacklist.length==0}}">
+  <view class="flex-sub"></view>
+  <image src="/images/sad.png" style="width:60rpx;height:60rpx;"></image>
+  <text class="text-bold text-xl margin-left-xs">暂无黑名单车辆</text>
+  <view class="flex-sub"></view>
+</view>
+<!-- 黑名单列表 -->
+<view class="grid col-{{is_edit?'2':'3'}} text-center margin-top">
+  <block wx:for="{{blacklist}}" wx:key="key">
+    <view class="flex align-center justify-center">
+      <view class="text-lg bg-Plate" style="padding:12rpx 20rpx;margin:10rpx 0rpx;display:inline-block;border-radius:8rpx;">
+        {{tools.strToPlate(item)}}
+      </view>
+      <view class="bg-red my-btn text-lg" style="padding:12rpx;margin:10rpx 5rpx;" wx:if="{{is_edit}}" data-index="{{index}}" bindtap="del_btn_click">
+        <text class="cuIcon-delete"></text>
+      </view>
+    </view>
+  </block>
+</view>
+<!-- 车牌输入 -->
+<my-plate-input id="my-plate-input" bind:confirm="confirm">
+  
+</my-plate-input>
+<!-- 加载进度弹窗 -->
+<view class='cu-load load-modal' wx:if="{{isLoading}}">
+  <!-- <view class='cuIcon-emojifill text-orange'></view> -->
+  <image src='/images/logo.png' class='png' mode='aspectFit'></image>
+  <view class='gray-text'>加载数据中...</view>
 </view>

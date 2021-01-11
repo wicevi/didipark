@@ -19,6 +19,10 @@ App({
     query_vipcars:"/app/config/vip/query",
     delete_vipcar:"/app/config/vip/del",
     add_vipcar:"/app/config/vip/add",
+    query_black:"/app/config/black/query",
+    add_black:"/app/config/black/add",
+    del_black:"/app/config/black/del",
+    del_order:"/app/park/present/del",
   },
   onLaunch: function () {
     //获取导航栏相关

@@ -279,10 +279,10 @@ Page({
           console.log(res);
           if(res.data.Code=="success"){
             this_.setData({vipCars:res.data.Result});
-            wx.showToast({
-              title: '加载成功',
-              image:'/images/success.png'
-            })
+            // wx.showToast({
+            //   title: '加载成功',
+            //   image:'/images/success.png'
+            // })
           }else{
             wx.showModal({
               title: '加载月卡信息异常',

@@ -17,7 +17,7 @@
 </view>
 <view class="video-view bg-white shadow">
   <view class="flex align-center justify-center {{controlSet.cameraPic?'padding-tb-xs':'padding'}}">
-    <image class="video-img" src="http://47.103.217.112{{controlSet.cameraPic}}" wx:if="{{controlSet.cameraPic}}"></image>
+    <image class="video-img" src="http://shuzhi.xyz{{controlSet.cameraPic}}" wx:if="{{controlSet.cameraPic}}"></image>
     <block wx:if="{{!controlSet.cameraPic}}">
       <view class="padding-xs">
         <image class="video-view-tip-img" src="../../../images/unpic.png"></image>

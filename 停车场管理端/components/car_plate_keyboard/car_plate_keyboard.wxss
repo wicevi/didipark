@@ -1,0 +1,108 @@
+/* components/car_plate_keyboard.wxss */
+@import "/colorui/main.wxss";
+@import "/colorui/icon.wxss";
+
+.keyboard-view{
+  padding: 0rpx 0rpx 10rpx 0rpx;
+  background-color: rgb(231, 231, 231);
+  position: absolute;
+  bottom: 0rpx;
+  left: 0rpx;
+  width: 100%;
+  z-index: 9999;
+}
+.keyboard-top-view{
+  margin-bottom: 5rpx;
+  background-color: rgb(243, 243, 243);
+  height: 42rpx;
+  line-height: 42rpx;
+  padding: 0rpx 12rpx;
+  text-align: center;
+  border-top: 1rpx solid #9ecdffb0;
+}
+.keyboard-logo{
+  height: 42rpx;
+  line-height: 42rpx;
+  font-size: 24rpx;
+  text-align: center;
+}
+.close-plate-btn{
+  height: 42rpx;
+  line-height: 42rpx;
+  font-size: 24rpx;
+  text-align: center;
+  font-weight: 500;
+  color: #2d8cf0;
+}
+.close-plate-btn:active{
+  color: rgb(158, 158, 158);
+}
+.keyboard-item{
+  width: 64rpx;
+  margin: 6rpx 6rpx;
+  height: 86rpx;
+  line-height: 86rpx;
+  text-align: center;
+  background-color: white;
+  border-radius: 8rpx;
+  font-size: 36rpx;
+  font-weight: 520;
+}
+.keyboard-item:active{
+  background-color: #dbdbdb;
+  color: rgb(158, 158, 158);
+}
+.keyboard-item-kg{
+  width: 64rpx;
+  margin: 6rpx 6rpx;
+  height: 86rpx;
+}
+.keyboard-item-onehalf{
+  width: 96rpx;
+  margin: 6rpx 6rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  text-align: center;
+  background-color: rgb(199, 199, 199);
+  border-radius: 8rpx;
+}
+.keyboard-item-onehalf:active{
+  background-color: #dbdbdb;
+  color: rgb(158, 158, 158);
+}
+.keyboard-item-abc{
+  font-size: 34rpx;
+  font-weight: 520;
+  color: rgb(0, 0, 0);
+}
+.keyboard-item-del{
+  font-size: 46rpx;
+  font-weight: 620;
+  color: rgb(0, 0, 0);
+}
+.keyboard-item-two{
+  width: 140rpx;
+  margin: 6rpx 6rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  text-align: center;
+  border-radius: 8rpx;
+  font-size: 34rpx;
+  font-weight: 520;
+}
+.keyboard-item-clear{
+  background-color:rgb(199, 199, 199);
+  color: rgb(0, 0, 0);
+}
+.keyboard-item-clear:active{
+  background-color: #dbdbdb;
+  color: rgb(158, 158, 158);
+}
+.keyboard-item-finish{
+  background-color: #2d8cf0;
+  color: white;
+}
+.keyboard-item-finish:active{
+  background-color: #dbdbdb;
+  color: rgb(158, 158, 158);
+}

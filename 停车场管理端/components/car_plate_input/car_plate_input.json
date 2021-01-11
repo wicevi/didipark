@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "plate-keyboard":"/components/car_plate_keyboard/car_plate_keyboard"
+  }
+}

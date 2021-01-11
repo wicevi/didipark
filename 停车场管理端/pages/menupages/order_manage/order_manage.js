@@ -81,6 +81,64 @@ Page({
   clearPlate(e){
     this.setData({searchPlate:""});
   },
+  finish:function(e){
+    var this_=this;
+    var index=this.data.orderIndex;
+    wx.showModal({
+      title:"确认结算",
+      content:"请确认将 "+this_.data.orderList[index].Plate+" 车辆的订单手动结算掉？",
+      success:function(res){
+        if(res.confirm){
+          this_.delOrder(index);
+        }
+      }
+    });
+  },
+  //清除订单
+  delOrder:function(index){
+    var this_=this;
+    var data_={ParkID:app.globalData.parkList[app.globalData.parkIndex].ID,InID:this_.data.orderList[index].InID};
+    if(app.globalData.parkList&&app.globalData.parkIndex<app.globalData.parkList.length){
+      this_.setData({isLoading:true});
+      wx.request({
+        url: app.HOST+app.URLS.del_order,
+        header:app.requestHeader,
+        data:data_,
+        method:"POST",
+        success:function(res){
+          console.log(res);
+          if(res.data.Code=="success"){
+            this_.data.orderList.splice(index, 1);
+            this_.setData({orderList:this_.data.orderList,isOpenModal_info:false});
+            wx.showToast({
+              title: '结算成功',
+              image:'/images/success.png'
+            })
+          }else{
+            wx.showModal({
+              title: '结算订单异常',
+              content: res.data.Message,
+              showCancel:false
+            })
+          }
+        },
+        fail:function(e){
+          wx.showToast({
+            title: '连接服务器异常',
+            image:'/images/error.png'
+          })
+        },
+        complete:function(res){
+          this_.setData({isLoading:false});
+        },
+      })
+    }else{
+      wx.showToast({
+        title: '车场异常',
+        image:'/images/error.png'
+      })
+    }
+  },
   //加载订单
   loadOrder:function(e){
     var this_=this;
@@ -101,10 +159,10 @@ Page({
           console.log(res);
           if(res.data.Code=="success"){
             this_.setData({orderList:res.data.Result.Plates});
-            wx.showToast({
-              title: '加载成功',
-              image:'/images/success.png'
-            })
+            // wx.showToast({
+            //   title: '加载成功',
+            //   image:'/images/success.png'
+            // })
           }else{
             wx.showModal({
               title: '加载订单异常',
