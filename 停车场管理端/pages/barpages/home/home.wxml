@@ -5,6 +5,12 @@
     <text class="cuIcon-titles text-blue"></text>
     <text class="text-xl text-bold padding-bottom-xxs">今日报表</text>
   </view>
+  <view class="flex-treble"></view>
+  <view class="action">
+    <view class="text-primer" style="padding:6rpx 20rpx 8rpx;border-radius:999rpx;border:1rpx solid #2d8cf0;">
+      {{parkName?parkName:'车场异常'}}
+    </view>
+  </view>
 </view>
 <view class="data-info-view padding-sm bg-white shadow">
   <view class="data-info-top text-sub flex align-center text-center">

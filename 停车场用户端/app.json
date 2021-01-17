@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/rent/rent",
     "pages/pay_info/pay_info",
+    "pages/pay_info_out/pay_info_out",
     "pages/user/user",
     "pages/vip_manage/vip_manage"
   ],

@@ -80,17 +80,16 @@ Page({
         console.log(res);
         if(res.data.Code=='success'){
           //登录成功
-          console.log('Appsession:'+res.header.Appsession);
-          app.requestHeader.Appsession=res.header.Appsession;
+          app.requestHeader.Appsession=res.header.Appsession?res.header.Appsession:(res.header.appsession?res.header.appsession:res.header.AppSession);
           wx.setStorage({
             data: app.requestHeader.Appsession,
             key: 'Appsession',
           })
-          this_.checkLogin();
+          this_.checkLogin(app.requestHeader.Appsession);
         }else{
           //登录失败
           wx.showModal({
-            title: '登录失败',
+            title: '登录失败0x01',
             content: res.data.Message,
             showCancel:false
           })
@@ -112,16 +111,18 @@ Page({
     });
   },
   //验证登录并获取全局车场信息
-  checkLogin:function(e){
+  checkLogin:function(appcode){
     var this_=this;
+    var requestHeader=appcode?{'content-type': 'application/x-www-form-urlencoded','Appsession':appcode}:app.requestHeader;
+    console.log(requestHeader);
     wx.request({
       url: app.HOST+app.URLS.query_parks,
-      header: app.requestHeader,
+      header: requestHeader,
       success: function(res){
         console.log(res);
         if(res.data.Code=='success'){
-          app.globalData.userInfo.userName=res.header.Username;
-          app.globalData.userInfo.userGroup=res.header.Usertype;
+          app.globalData.userInfo.userName=res.header.Username?res.header.Username:res.header.username;
+          app.globalData.userInfo.userGroup=res.header.Usertype?res.header.Usertype:res.header.usertype;
           app.isLogin=true;
           this_.data.eventChannel.emit("loginSuccess",null);
           app.globalData.parkList=res.data.Result;
@@ -133,7 +134,7 @@ Page({
             key: 'Appsession',
           })
           wx.showModal({
-            title: '登录失败',
+            title: '登录失败0x02',
             content: res.data.Message,
             showCancel:false
           })

@@ -113,8 +113,8 @@ Page({
       var startTime = (this.data.parkList[this.data.parkIndex].VipTime)?this.data.parkList[this.data.parkIndex].VipTime.ExpireTime:this.data.startTime;
       this.setData({
         typeIndex:typeIndex,
-        endTime:util.addDate(startTime,this_.data.typeList[typeIndex].month),
-        price:this_.data.typeList[typeIndex].price
+        endTime:this_.data.typeList[typeIndex]?util.addDate(startTime,this_.data.typeList[typeIndex].month):null,
+        price:this_.data.typeList[typeIndex]?this_.data.typeList[typeIndex].price:0,
       });
     }else{
       this.setData({

@@ -5,7 +5,7 @@
 .keyboard-view{
   padding: 0rpx 0rpx 10rpx 0rpx;
   background-color: rgb(231, 231, 231);
-  position: absolute;
+  position: fixed;
   bottom: 0rpx;
   left: 0rpx;
   width: 100%;

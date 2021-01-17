@@ -40,6 +40,23 @@ Component({
         NoPlate_OutMode_index:NoPlate_OutMode_index_
       });
     },
+    selectPlateNoInOutMode(e){
+      var Plate_NoIn_OutMode_index_=e.detail.value;
+      this.triggerEvent("PlateNoInOutModeChange", {
+        Plate_NoIn_OutMode_index:Plate_NoIn_OutMode_index_
+      });
+    },
+    selectRound_Price(e){
+      var Round_Price_=e.detail.value;
+      this.triggerEvent("RoundPriceChange", {
+        Round_Price:Round_Price_
+      });
+    },
+    inputPrePayLeaveTime(event){
+      var this_=this;
+      this_.data.controlSet.parkSet.PrePay_LeaveTime=event.detail.value;
+      this.setData({controlSet:this_.data.controlSet});
+    },
     tapEvent(e){
       var type_=e.currentTarget.dataset.type;
       var value_=e.currentTarget.dataset.value;

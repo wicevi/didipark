@@ -8,8 +8,8 @@
   </view>
 </view>
 <!--内容-->
-<home showReport="{{reportData}}" wx:if="{{PageCur=='home'}}" bind:Fresh="updateReportData"></home>
-<control bind:cameraChange="cameraChange" bind:NoPlateOutModeChange="NoPlateOutModeChange" bind:controlEvent="controlEvent" controlSet="{{controlData}}" wx:if="{{PageCur=='control'}}"></control>
+<home showReport="{{reportData}}" parkName="{{userData.parkList[userData.parkIndex].ParkName}}" wx:if="{{PageCur=='home'}}" bind:Fresh="updateReportData"></home>
+<control bind:cameraChange="cameraChange" bind:NoPlateOutModeChange="NoPlateOutModeChange" bind:PlateNoInOutModeChange="PlateNoInOutModeChange" bind:RoundPriceChange="RoundPriceChange" bind:controlEvent="controlEvent" controlSet="{{controlData}}" wx:if="{{PageCur=='control'}}"></control>
 <user wx:if="{{PageCur=='user'}}" bind:userMenuEvent="userMenuEvent" userData="{{userData}}"></user>
 <!--底部标签-->
 <view class="cu-bar tabbar bg-white shadow foot">

@@ -1,16 +1,31 @@
 <!--pages/menupages/vip_manage/vip_manage.wxml-->
 <wxs module="tools" src="../../../utils/tool.wxs"></wxs>
-<!-- 搜索框 -->
-<view class="cu-bar search bg-white shadow">
-  <view class="search-form round">
-    <text class="cuIcon-search"></text>
-    <input type="text" placeholder="输入车牌号搜索车辆" confirm-type="search" value="{{searchPlate}}" bindinput="inputPlate"></input>
-    <text class="cuIcon-close" wx:if="{{searchPlate}}" bindtap="clearPlate"></text>
+<!-- 标题框 -->
+<view class="bg-white shadow flex align-center padding-sm justify-between top-bar">
+  <view class="text-black text-lg" wx:if="{{tools.strlen(searchPlate)==0}}">
+    月卡数量：<text class="text-primer text-lg text-bold">{{vipCars.length}}</text>
   </view>
-  <view class="action">
-    <view class="my-btn bg-Primary padding-tb-xs padding-lr-sm search-btn" style="border-radius: 999rpx;" bindtap="searchVipCar">搜索</view>
+  <view class="text-black text-lg" wx:else>
+    搜索车牌：<text class="text-black text-xl text-bold" bindtap="search_btn_click">{{tools.strToPlate(searchPlate)}}</text>
+  </view>
+  <view class="flex">
+    <view class="my-btn bg-Primary shadow-blur-min" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="search_btn_click" wx:if="{{tools.strlen(searchPlate)==0}}">
+      <text>搜索</text>
+      <text class="cuIcon-search padding-left-xs"></text>
+    </view>
+    <view class="my-btn bg-grey shadow-blur-min" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="close_search_btn_click" wx:else>
+      <text>重置搜索</text>
+    </view>
+    <view class="my-btn bg-Primary margin-left-sm shadow-blur-min" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="write_btn_click" wx:if="{{!isEdit}}">
+      <text>编辑</text>
+      <text class="cuIcon-write padding-left-xs"></text>
+    </view>
+    <view class="my-btn bg-grey margin-left-sm shadow-blur-min" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="close_write_btn_click" wx:else>
+      <text>退出编辑</text>
+    </view>
   </view>
 </view>
+<view class="top-bar-view"></view>
 <!--月卡车辆列表为空-->
 <view class="margin align-center flex" wx:if="{{!vipCars||vipCars.length==0}}">
   <view class="flex-sub"></view>
@@ -20,21 +35,22 @@
 </view>
 <!--月卡车辆列表-->
 <view class="margin" wx:for="{{vipCars}}">
-  <view class="delete-view" bindtap="deleteVip" data-index="{{index}}">
+  <view class="delete-view" bindtap="deleteVip" data-index="{{index}}" wx:if="{{isEdit}}">
     <text class="cuIcon-delete delete-text"></text>
   </view>
   <view class="bg-white padding shadow" style="border-radius:16rpx">
-    <view class="flex align-center">
+    <view class="flex align-center vip-list-item-view">
       <view class="flex-twice flex align-center">
         <view class="text-grey car-key-view">车牌</view>
         <view class="car-value-view">{{tools.strToPlate(item.Plate)}}</view>
+        <text class="cuIcon-copy margin-left-xs text-xxl text-primer item-text-btn"></text>
       </view>
       <view class="flex-twice flex align-center">
         <view class="text-grey car-key-view">类型</view>
         <view class="car-value-view">{{vipType[item.VipType]}}</view>
       </view>
     </view>
-    <view class="flex align-center margin-top-sm">
+    <view class="flex align-center vip-list-item-view">
       <view class="flex-twice flex align-center">
         <view class="text-grey car-key-view">车主</view>
         <view class="car-value-view">{{item.Owner?item.Owner:'暂无'}}</view>
@@ -42,16 +58,18 @@
       <view class="flex-twice flex align-center">
         <view class="text-grey car-key-view">电话</view>
         <view class="car-value-view">{{item.Phone?item.Phone:'暂无'}}</view>
+        <text class="cuIcon-phone margin-left-xs text-xxl text-green item-text-btn" wx:if="{{item.Phone}}"></text>
       </view>
     </view>
-    <view class="flex align-center justify-between margin-top-sm">
+    <view class="flex align-center justify-between vip-list-item-view">
       <view class="flex align-center">
         <view class="text-grey car-key-view">时间</view>
         <view class="car-value-view">{{item.StartTime}}</view>
-        <view class="text-grey car-key-view" style="margin: 0rpx 8rpx;">至</view>
+        <view class="text-grey car-key-view" style="margin: 0rpx 8rpx;"><text class="margin-left-xs">至</text></view>
         <view class="car-value-view" style="{{tools.isNearExpiration(nowDate,item.ExpireTime)?'color:red;':''}}">{{item.ExpireTime}}</view>
       </view>
-      <view class="continue-date-view" bindtap="editVip" data-index="{{index}}"><text class="cuIcon-edit padding-right-xs"></text>编辑</view>
+      <view class="continue-date-view shadow-blur-min" bindtap="editVip" data-index="{{index}}" wx:if="{{isEdit}}">修改<text class="cuIcon-edit padding-left-xs"></text></view>
+      <view class="text-bold {{tools.getExpirationTime(nowDate,item.ExpireTime)>5?'text-green':'text-red'}}" style="line-height: 30rpx;font-size: 30rpx;" wx:else>{{tools.getExpirationTime(nowDate,item.ExpireTime)>=0?'剩'+tools.getExpirationTime(nowDate,item.ExpireTime)+'天':'已过期'}}</view>
     </view>
   </view>
 </view>
@@ -165,8 +183,10 @@
     </view>
   </view>
 </view>
+<!-- 车牌输入 -->
+<my-plate-input id="my-plate-input" bind:confirm="confirm"></my-plate-input>
 <!-- 添加按钮 -->
-<view class="add-btn-view" bindtap="addVip">
+<view class="add-btn-view shadow-blur" bindtap="addVip">
   <text class="cuIcon-add"></text>
 </view>
 <!-- 加载进度弹窗 -->

@@ -9,6 +9,12 @@ var tools = {
     if(value==null)return 0; 
     return value.length
   },
+  isHasPic: function(value){
+    if(value==null)return false;
+    if(value.indexOf('404')>=0)return false;
+    if(value.length<2)return false;
+    return true;
+  },
   strToPlate: function(value) {  
     if(value==null)return null;   
     var len=value.length;
@@ -18,6 +24,16 @@ var tools = {
       if(i==1)reStr+='·';
     }
     return reStr;
+  },
+  timeRemoveSecond: function(time){
+    var reStr="";
+    if(time==null&&time.length!=19)return 'xxxx-xx-xx xx:xx';
+    else{
+      for(var i=0;i<16;i++){
+        reStr+=time[i];
+      }
+      return reStr;
+    }
   },
   isNearExpiration: function(nowDate,expireDate) { 
     if(nowDate==null||expireDate==null)return false;
@@ -32,6 +48,13 @@ var tools = {
       return day_<5;
     }
     return false;
+  },
+  getExpirationTime: function(nowDate,expireDate){
+    if(nowDate==null||expireDate==null)return 0;
+    var nowTime = Date.parse(nowDate);
+    var expireTime = Date.parse(expireDate);
+    var lastTime=(expireTime-nowTime)/1000/60/60/24;
+    return lastTime;
   }
 }
 
@@ -40,5 +63,8 @@ module.exports = {
   toFix_2: tools.toFix_2,
   strlen : tools.strlen,
   strToPlate: tools.strToPlate,
-  isNearExpiration: tools.isNearExpiration
+  isNearExpiration: tools.isNearExpiration,
+  isHasPic: tools.isHasPic,
+  timeRemoveSecond: tools.timeRemoveSecond,
+  getExpirationTime: tools.getExpirationTime
 }

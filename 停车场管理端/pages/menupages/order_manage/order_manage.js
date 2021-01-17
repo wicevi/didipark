@@ -15,6 +15,29 @@ Page({
     //搜索输入的车牌
     searchPlate:"",
   },
+  openInputView(e){
+    var inputView=this.selectComponent('#my-plate-input');
+    inputView.showInput(this.data.searchPlate);
+  },
+  confirm(e){
+    this.setData({
+      searchPlate:e.detail.inputPlate,
+    });
+    this.searchOrder();
+  },
+  search_btn_click(e){
+    this.openInputView();
+  },
+  close_search_btn_click(e){
+    this.clearPlate();
+    this.loadOrder();
+  },
+  add_btn_click(e){
+    wx.showToast({
+      title: '暂未开放',
+      image:'/images/tip.png'
+    })
+  },
   //导航栏切换事件
   navChange(e) {
     var tap_cur=e.currentTarget.dataset.cur;
@@ -22,7 +45,6 @@ Page({
       this.setData({
         PageCur: e.currentTarget.dataset.cur
       })
-      this.clearPlate();
       this.loadOrder();
       wx.setNavigationBarTitle({
         title: this.data.PageCur=='inOrder'?'在场订单':'离场订单',
@@ -54,12 +76,7 @@ Page({
    //下拉刷新事件
    onPullDownRefresh: function () {
     //调用刷新时将执行的方法
-    this.clearPlate();
     this.loadOrder();
-  },
-  //车牌输入事件
-  inputPlate(e){
-    this.setData({searchPlate:e.detail.value});
   },
   //搜索车牌订单
   searchOrder(e){
@@ -86,7 +103,7 @@ Page({
     var index=this.data.orderIndex;
     wx.showModal({
       title:"确认结算",
-      content:"请确认将 "+this_.data.orderList[index].Plate+" 车辆的订单手动结算掉？",
+      content:"请确认是否将 "+this_.data.orderList[index].Plate+" 车辆的订单手动结算掉？",
       success:function(res){
         if(res.confirm){
           this_.delOrder(index);

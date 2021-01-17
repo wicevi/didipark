@@ -30,7 +30,8 @@
 }
 .daozha-view{
   width: 96%;
-  margin: 10rpx auto;
+  margin: 0rpx auto;
+  padding: 10rpx 0rpx;
 }
 .daozha-view-img{
   width: 60rpx;
@@ -72,4 +73,29 @@
   border: 4rpx solid #1296db;
   border-radius: 999rpx;
   color: #1296db;
+}
+.control-item-view{
+  height: 80rpx;
+  padding: 10rpx 20rpx 10rpx;
+  margin: 10rpx 0rpx;
+  border-bottom: 1rpx solid #e9eaec;
+}
+.number-input-view{
+  width: 80rpx;
+  border: 1rpx solid #dddee1;
+  text-align: center;
+}
+.number-input-view:hover{
+  border: 1rpx solid #2d8cf0;
+}
+.change-btn{
+  background-color: #19be6b;
+  padding: 10rpx 24rpx;
+  border-radius: 999rpx;
+  color: white;
+  margin-left: 10rpx;
+}
+.change-btn:active{
+  background-color: #e9eaec;
+  color: black;
 }

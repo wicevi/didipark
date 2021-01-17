@@ -21,7 +21,12 @@ Page({
       cameraList:[],
       cameraPic:null,
       parkSet:null,
+      outMode_Str:['免费放行','最低收费','人工确认'],
+      outMode_Value:['free','minprice','manual'],
       NoPlate_OutMode_index:0,
+      Plate_NoIn_OutMode_index:0,
+      Round_Price_Str:['不取整','向上0.5元取整','向下0.5元取整','向上一元取整','向下一元取整','四舍五入取整'],
+      Round_Price:0,
       isControling:false
     },
     //user页数据
@@ -133,6 +138,9 @@ Page({
                   if(this_.data.controlData.parkSet.NoPlate_OutMode=="minprice")this_.data.controlData.NoPlate_OutMode_index=1;
                   else if(this_.data.controlData.parkSet.NoPlate_OutMode=="manual")this_.data.controlData.NoPlate_OutMode_index=2;
                   else this_.data.controlData.NoPlate_OutMode_index=0;
+                  if(this_.data.controlData.parkSet.Plate_NoIn_OutMode=="minprice")this_.data.controlData.Plate_NoIn_OutMode_index=1;
+                  else if(this_.data.controlData.parkSet.Plate_NoIn_OutMode=="manual")this_.data.controlData.Plate_NoIn_OutMode_index=2;
+                  else this_.data.controlData.Plate_NoIn_OutMode_index=0;
                   wx.showToast({
                     title: '获取数据成功',
                     image:'/images/success.png'
@@ -247,6 +255,7 @@ Page({
     data_[paramName]=paramValue;
     if(app.globalData.parkList&&app.globalData.parkIndex<app.globalData.parkList.length){
       this_.data.controlData.isControling=true;
+      this_.data.controlData.parkSet[paramName]=paramValue;
       this_.setData({controlData:this_.data.controlData});
       wx.request({
         url: app.HOST+app.URLS.change_parkset,
@@ -260,6 +269,9 @@ Page({
             if(this_.data.controlData.parkSet.NoPlate_OutMode=="minprice")this_.data.controlData.NoPlate_OutMode_index=1;
             else if(this_.data.controlData.parkSet.NoPlate_OutMode=="manual")this_.data.controlData.NoPlate_OutMode_index=2;
             else this_.data.controlData.NoPlate_OutMode_index=0;
+            if(this_.data.controlData.parkSet.Plate_NoIn_OutMode=="minprice")this_.data.controlData.Plate_NoIn_OutMode_index=1;
+            else if(this_.data.controlData.parkSet.Plate_NoIn_OutMode=="manual")this_.data.controlData.Plate_NoIn_OutMode_index=2;
+            else this_.data.controlData.Plate_NoIn_OutMode_index=0;
             wx.showToast({
               title: '更改设置成功',
               image:'/images/success.png'
@@ -345,10 +357,30 @@ Page({
   },
   //无牌车出场方式选择事件
   NoPlateOutModeChange(e){
+    if(this.data.controlData.NoPlate_OutMode_index==e.detail.NoPlate_OutMode_index)return;
     this.data.controlData.NoPlate_OutMode_index=e.detail.NoPlate_OutMode_index;
     this.setData({
       controlData: this.data.controlData
-    })
+    });
+    this.changeParkSet('NoPlate_OutMode',this.data.controlData.outMode_Value[this.data.controlData.NoPlate_OutMode_index]);
+  },
+  //无入场记录车牌出场
+  PlateNoInOutModeChange(e){
+    if(this.data.controlData.Plate_NoIn_OutMode_index==e.detail.Plate_NoIn_OutMode_index)return;
+    this.data.controlData.Plate_NoIn_OutMode_index=e.detail.Plate_NoIn_OutMode_index;
+    this.setData({
+      controlData: this.data.controlData
+    });
+    this.changeParkSet('Plate_NoIn_OutMode',this.data.controlData.outMode_Value[this.data.controlData.Plate_NoIn_OutMode_index]);
+  },
+  //收费取整方式
+  RoundPriceChange(e){
+    if(this.data.controlData.parkSet.Round_Price==e.detail.Round_Price)return;
+    this.data.controlData.parkSet.Round_Price=e.detail.Round_Price;
+    this.setData({
+      controlData: this.data.controlData
+    });
+    this.changeParkSet('Round_Price',this.data.controlData.parkSet.Round_Price);
   },
   //控制事件
   controlEvent(e){

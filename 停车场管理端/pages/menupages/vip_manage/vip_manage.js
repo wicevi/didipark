@@ -19,6 +19,7 @@ Page({
       "包整年模式"
     ],
     vipSelect:0,
+    nowDate:util.getDate(),
     startDate:util.getDate(),//生效日期
     expireDate:null,//到期日期
     vipPlate:"",
@@ -28,12 +29,37 @@ Page({
     nowDate:util.getDate(),
     //搜索输入的车牌
     searchPlate:"",
+    //是否编辑模式
+    isEdit:false,
     //弹窗变量
     confirmDeleteModal:false,
     addModal:false,
     editModal:false,
     //加载进度
     isLoading:false,
+  },
+  openInputView(e){
+    var inputView=this.selectComponent('#my-plate-input');
+    inputView.showInput(this.data.searchPlate);
+  },
+  confirm(e){
+    this.setData({
+      searchPlate:e.detail.inputPlate,
+    });
+    this.updateVipCars();
+  },
+  search_btn_click(e){
+    this.openInputView();
+  },
+  close_search_btn_click(e){
+    this.clearPlate();
+    this.updateVipCars();
+  },
+  write_btn_click(e){
+    this.setData({isEdit:true});
+  },
+  close_write_btn_click(e){
+    this.setData({isEdit:false});
   },
   //关闭确认窗口
   hideConfirmDeleteModal(e){
@@ -124,22 +150,6 @@ Page({
       vipCar_Index:e.currentTarget.dataset.index,
       confirmDeleteModal:true
     });
-  },
-  //搜索车牌月卡
-  searchVipCar(e){
-    if(this.data.searchPlate.length<7){
-      wx.showToast({
-        title: '输入完整车牌',
-        image:'/images/tip.png'
-      })
-    }else if(this.data.searchPlate.length>8){
-      wx.showToast({
-        title: '输入车牌过长',
-        image:'/images/tip.png'
-      })
-    }else{
-      this.updateVipCars();
-    }
   },
   //添加月卡信息
   addVipCar(e){
@@ -321,7 +331,6 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    this.clearPlate();
     this.updateVipCars();
   },
 })

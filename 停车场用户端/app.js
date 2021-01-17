@@ -9,6 +9,7 @@ App({
     query_vip:"/app/vip/query",
     build_vip:"/app/vip/order/build",
     prepay:"/app/io/order/prepay",
+    pointpay:"/app/pointpay",
   },
   login:function(){
     var this_=this;

@@ -1,24 +1,25 @@
 <!--pages/menupages/blacklist_manage/blacklist_manage.wxml-->
 <wxs module="tools" src="../../../utils/tool.wxs"></wxs>
 <!-- 添加黑名单框 -->
-<view class="bg-white shadow flex align-center padding-sm justify-between">
+<view class="bg-white shadow flex align-center padding-sm justify-between top-bar">
   <view class="text-black text-lg">
-    黑名单数量：<text class="text-red text-xl text-bold">{{blacklist.length}}</text>
+    黑名单数量：<text class="text-primer text-lg text-bold">{{blacklist.length}}</text>
   </view>
   <view class="flex">
-    <view class="my-btn bg-Primary" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="add_btn_click" wx:if="{{!is_edit}}">
+    <view class="my-btn bg-Primary shadow-blur-min" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="add_btn_click" wx:if="{{!is_edit}}">
       <text>添加</text>
       <text class="cuIcon-add padding-left-xs"></text>
     </view>
-    <view class="my-btn bg-Primary margin-left-sm" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="edit_btn_click" wx:if="{{!is_edit}}">
+    <view class="my-btn bg-Primary margin-left-sm shadow-blur-min" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="edit_btn_click" wx:if="{{!is_edit}}">
       <text>编辑</text>
       <text class="cuIcon-write padding-left-xs"></text>
     </view>
-    <view class="my-btn bg-grey margin-left-sm" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="edit_btn_click" wx:if="{{is_edit}}">
+    <view class="my-btn bg-grey margin-left-sm shadow-blur-min" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="edit_btn_click" wx:if="{{is_edit}}">
       <text>退出编辑</text>
     </view>
   </view>
 </view>
+<view class="top-bar-view"></view>
 <!-- 黑名单为空 -->
 <view class="margin align-center flex" wx:if="{{!blacklist||blacklist.length==0}}">
   <view class="flex-sub"></view>
@@ -30,10 +31,10 @@
 <view class="grid col-{{is_edit?'2':'3'}} text-center margin-top">
   <block wx:for="{{blacklist}}" wx:key="key">
     <view class="flex align-center justify-center">
-      <view class="text-lg bg-Plate" style="padding:12rpx 20rpx;margin:10rpx 0rpx;display:inline-block;border-radius:8rpx;">
+      <view class="text-lg shadow-blur" style="padding:12rpx 20rpx;margin:10rpx 0rpx;display:inline-block;border-radius:8rpx;background-color:#2b85e4;color:white;">
         {{tools.strToPlate(item)}}
       </view>
-      <view class="bg-red my-btn text-lg" style="padding:12rpx;margin:10rpx 5rpx;" wx:if="{{is_edit}}" data-index="{{index}}" bindtap="del_btn_click">
+      <view class="bg-red my-btn text-lg shadow-blur" style="padding:12rpx;margin:10rpx 5rpx;" wx:if="{{is_edit}}" data-index="{{index}}" bindtap="del_btn_click">
         <text class="cuIcon-delete"></text>
       </view>
     </view>

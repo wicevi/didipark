@@ -1,0 +1,80 @@
+/* pages/pay_info/pay_info.wxss */
+.pay-info-top-border{
+  margin: 20rpx 10rpx 0rpx;
+  display: flex;
+  padding-top: 15rpx;
+  color: #f0f0f0;
+  box-sizing: border-box;
+  background: radial-gradient(transparent 0, transparent 10rpx, #2d8cf0 10rpx);
+  background-size: 38rpx 38rpx;
+  background-position: 4rpx 20rpx;
+  background-color: #f0f0f0;
+}
+.pay-info-top-view{
+  margin: 0rpx 10rpx;
+  padding: 30rpx;
+  background-color: #2d8cf0;
+  color: #f0f0f0;
+}
+.pay-info-parkname-view{
+  margin: 20rpx 0rpx;
+  font-size: 50rpx;
+  font-weight: 520;
+  text-align: center;
+}
+.pay-info-plate-view{
+  margin: 20rpx 0rpx;
+  font-size: 38rpx;
+  text-align: center;
+}
+.pay-info-top-btn{
+  padding: 10rpx 36rpx;
+  border-radius: 999rpx;
+  background-color: rgba(78, 78, 78, 0.308);
+  font-size: 26rpx;
+}
+.pay-info-top-btn:active{
+  background-color: #5cadff;
+}
+.pay-info-bottom-view{
+  margin: 0rpx 10rpx;
+  background-color: white;
+  padding: 30rpx;
+  font-size: 36rpx;
+  box-shadow: 0rpx 15rpx 10rpx -15rpx #0000003b;
+}
+.pay-info-time-view{
+  border-bottom: 1rpx dashed #dddee1;
+}
+.pay-info-item-view{
+  margin: 20rpx 0rpx;
+}
+.pay-info-button-dis{
+  color: #f0f0f0;
+  position: fixed;
+  width: 96%;
+  left: 2%;
+  bottom: 30rpx;
+  border-radius: 999rpx;
+  text-align: center;
+  box-shadow: 0rpx 15rpx 10rpx -15rpx #0000003b;
+}
+.pay-info-button{
+  color: #f0f0f0;
+  position: fixed;
+  width: 96%;
+  left: 2%;
+  bottom: 30rpx;
+  border-radius: 999rpx;
+  text-align: center;
+  box-shadow: 0rpx 15rpx 10rpx -15rpx #0000003b;
+}
+.pay-info-button:active{
+  background-color: #5cadff;
+}
+.bottom-tip-text{
+  position: fixed;
+  width: 96%;
+  left: 2%;
+  bottom: 30rpx;
+}

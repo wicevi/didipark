@@ -88,26 +88,58 @@
       <text>车场设置</text>
     </view>
   </view>
-  <view class="flex flex-wrap text-center" wx:if="{{controlSet.parkSet}}">
-    <view class="in-out-view basis-df flex align-center">
-      <text class="flex-treble text-bold text-gray">所有车辆禁入</text>
-      <switch class="green radius sm" checked="{{controlSet.parkSet.AllPlate_Forbidden}}" bindchange="tapEvent" data-type="AllPlate_Forbidden" data-value="{{!controlSet.parkSet.AllPlate_Forbidden}}"></switch>
+  <view class="daozha-view" wx:if="{{controlSet.parkSet}}">
+    <view class="flex align-center control-item-view">
+      <view class="flex-twice text-left text-lg text-bold">所有车辆进场</view>
+      <switch class="green radius sm" checked="{{!controlSet.parkSet.AllPlate_Forbidden}}" bindchange="tapEvent" data-type="AllPlate_Forbidden" data-value="{{!controlSet.parkSet.AllPlate_Forbidden}}"></switch>
     </view>
-    <view class="in-out-view basis-df flex align-center" wx:if="{{!controlSet.parkSet.AllPlate_Forbidden}}">
-      <text class="flex-treble text-bold text-gray">临时车辆进出</text>
+    <view class="flex align-center control-item-view" wx:if="{{!controlSet.parkSet.AllPlate_Forbidden}}">
+      <view class="flex-twice text-left text-lg text-bold">临时车辆进场</view>
       <switch class="green radius sm" checked="{{controlSet.parkSet.UnknownPlate_IsPermitIn}}" bindchange="tapEvent" data-type="UnknownPlate_IsPermitIn" data-value="{{!controlSet.parkSet.UnknownPlate_IsPermitIn}}"></switch>
     </view>
-    <view class="in-out-view basis-df flex align-center" wx:if="{{!controlSet.parkSet.AllPlate_Forbidden}}">
-      <text class="flex-treble text-bold text-gray">无牌车辆进出</text>
-      <switch class="green radius sm" checked="{{controlSet.parkSet.NoPlate_IsPermitIn}}" bindchange="tapEvent" data-type="NoPlate_IsPermitIn" data-value="{{!controlSet.parkSet.NoPlate_IsPermitIn}}"></switch>
+    <view class="flex align-center control-item-view" wx:if="{{!controlSet.parkSet.AllPlate_Forbidden}}">
+      <view class="flex-twice text-left text-lg text-bold">黄牌车辆进场</view>
+      <switch class="green radius sm" checked="{{controlSet.parkSet.Yellow_PermitIn}}" bindchange="tapEvent" data-type="Yellow_PermitIn" data-value="{{!controlSet.parkSet.Yellow_PermitIn}}"></switch>
     </view>
-    <view class="in-out-view basis-df flex align-center" wx:if="{{!controlSet.parkSet.AllPlate_Forbidden&&controlSet.parkSet.NoPlate_IsPermitIn}}">
-      <picker class="flex-treble text-bold text-gray" range="{{outMode}}" range-key="name" value="{{controlSet.NoPlate_OutMode_index}}" bindchange="selectNoPlateOutMode">
-        <text>{{outMode[controlSet.NoPlate_OutMode_index].name}}</text>
-        <text class="cuIcon-unfold padding-left-xs"></text>
-      </picker>
-      <view class="padding-tb-xs padding-lr-sm my-btn bg-green" bindtap="tapEvent" data-type="NoPlate_OutMode" data-value="{{outMode[controlSet.NoPlate_OutMode_index].value}}">
-      <text>修改</text>
+    <view class="flex align-center control-item-view" wx:if="{{!controlSet.parkSet.AllPlate_Forbidden}}">
+      <view class="flex-twice text-left text-lg text-bold">无牌车辆进场</view>
+      <view class="flex align-center">
+        <picker class="text-bold text-gray" range="{{controlSet.outMode_Str}}" value="{{controlSet.NoPlate_OutMode_index}}" bindchange="selectNoPlateOutMode" wx:if="{{controlSet.parkSet.NoPlate_IsPermitIn}}">
+          <text>{{controlSet.outMode_Str[controlSet.NoPlate_OutMode_index]}}</text>
+          <text class="cuIcon-unfold" style="margin-left:5rpx;"></text>
+        </picker>
+        <switch class="green radius sm margin-left-sm" checked="{{controlSet.parkSet.NoPlate_IsPermitIn}}" bindchange="tapEvent" data-type="NoPlate_IsPermitIn" data-value="{{!controlSet.parkSet.NoPlate_IsPermitIn}}"></switch>
+      </view>
+    </view>
+    <!-- <view class="flex align-center control-item-view">
+      <view class="flex-twice text-left text-lg text-bold">智能匹配车牌</view>
+      <switch class="green radius sm" checked="{{controlSet.parkSet.Plate_NoIn_SmartMatch}}" bindchange="tapEvent" data-type="Plate_NoIn_SmartMatch" data-value="{{!controlSet.parkSet.Plate_NoIn_SmartMatch}}"></switch>
+    </view> -->
+    <view class="flex align-center control-item-view">
+      <view class="flex-treble text-left text-lg text-bold">收费取整方式</view>
+      <view class="flex-treble flex align-center justify-end">
+        <picker class="text-bold text-gray" range="{{controlSet.Round_Price_Str}}" value="{{controlSet.parkSet.Round_Price}}" bindchange="selectRound_Price">
+          <text>{{controlSet.Round_Price_Str[controlSet.parkSet.Round_Price]}}</text>
+          <text class="cuIcon-unfold" style="margin-left:5rpx;"></text>
+        </picker>
+      </view>
+    </view>
+    <view class="flex align-center control-item-view">
+      <view class="flex-treble text-left text-lg text-bold">无入场记录车辆离场</view>
+      <view class="flex-treble flex align-center justify-end">
+        <picker class="text-bold text-gray" range="{{controlSet.outMode_Str}}" value="{{controlSet.Plate_NoIn_OutMode_index}}" bindchange="selectPlateNoInOutMode">
+          <text>{{controlSet.outMode_Str[controlSet.Plate_NoIn_OutMode_index]}}</text>
+          <text class="cuIcon-unfold" style="margin-left:5rpx;"></text>
+        </picker>
+      </view>
+    </view>
+    <view class="flex align-center control-item-view">
+      <view class="flex-treble text-left text-lg text-bold">预支付后限定离场时间</view>
+      <view class="flex-treble flex align-center justify-end">
+        <input type="number" class="number-input-view text-gray" value="{{controlSet.parkSet.PrePay_LeaveTime}}" bindinput="inputPrePayLeaveTime"/>
+        <view class="change-btn" data-type="PrePay_LeaveTime" data-value="{{controlSet.parkSet.PrePay_LeaveTime}}" bindtap="tapEvent">
+          修改
+        </view>
       </view>
     </view>
   </view>

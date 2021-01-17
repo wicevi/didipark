@@ -8,7 +8,7 @@
       {{parkName}}
     </view>
     <view class="pay-info-plate-view">
-      {{tools.strToPlate(plate)}}
+      {{tools.strlen(plate)>6?tools.strToPlate(plate):'暂无车辆抵达该出口,请刷新'}}
     </view>
     <view class="flex justify-center align-center margin-top">
       <view class="pay-info-top-btn margin-right-sm" bindtap="watchPic">查看图片</view>
@@ -50,14 +50,14 @@
     </view>
   </view>
   <!-- 支付按钮 -->
-  <view class="padding bg-Primary pay-info-button text-xl" bindtap="getPayData">
+  <view class="padding bg-{{price>0?'Primary':'grey'}} pay-info-button{{price>0?'':'-dis'}} text-xl" bindtap="{{price>0?'getPayData':''}}">
     确认支付
   </view>
 </block>
 <block wx:else>
   <image src="/images/payok.png" style="width:200rpx;height:200rpx;margin:120rpx auto 0rpx auto;display:block;"></image>
   <view class="text-center text-bold text-green margin-top-sm" style="font-size:60rpx">支付成功</view>
-  <view class="text-center margin-top-sm" style="font-size:38rpx;">请在<text class="text-red text-bold" style="padding:0rpx 10rpx;font-size:46rpx;">{{leaveTime}}</text>分钟内离场</view>
+  <view class="text-left margin-top-sm bottom-tip-text text-red">注：若未开闸，请联系车场管理员（联系方式一般位于收费牌或LED屏）</view>
 </block>
 <!--一些提示框-->
 <i-message id="message"/>
@@ -65,4 +65,29 @@
 <view class='cu-load load-modal' wx:if="{{isLoading}}">
   <image src='/images/logo.png' class='png' mode='aspectFit'></image>
   <view class='gray-text'>加载中...</view>
+</view>
+<!-- 提示登录弹窗 -->
+<view class="cu-modal {{isShowLoginModal?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">请先登录</view>
+      <view class="action" bindtap="hideShowLoginModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-top-xl flex justify-center">
+      <image style="width:120rpx;height:120rpx;" src="/images/logo.png"></image>
+    </view>
+    <view class="padding-bottom-xl padding-lr-xl padding-top-sm margin">
+      <view class="text-lg text-left">请点击底部按钮进行登录后再进行操作</view>
+      <view class="text-sm text-red text-left">注：若一直无法登录请检查手机联网状态或咨询客服</view>
+    </view>
+    <view class="cu-bar bg-white justify-center">
+      <view class="action">
+        <view class="my-btn bg-Primary round" style="padding:12rpx 80rpx;" bindtap="loginUser">
+          <text>登录</text>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

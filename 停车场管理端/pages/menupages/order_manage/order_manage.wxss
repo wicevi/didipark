@@ -2,7 +2,7 @@
 .top-bar-item{
   margin: 0rpx auto;
 }
-.order-info-view-title{
+.order-list-view-title{
   padding-bottom: 6rpx;
   border-bottom: 2rpx solid #d8d8d8;
 }
@@ -17,21 +17,21 @@
 .search-btn{
   border-radius: 9999rpx;
 }
-
-
-
-
-
-
-
-
-
 .query-btn{
   padding: 6rpx 10rpx 8rpx;
 }
-.order-info-view{
+.order-list-view{
   border-radius: 16rpx;
 }
-.order-info-item{
-  padding: 10rpx 0rpx;
+.order-info-item-view{
+  height: 56rpx;
+  border-bottom: 2rpx solid #dddee1;
+}
+.order-info-text-btn:active{
+  color: #bbbec4;
+}
+
+.abc-bottom{
+  position: relative;
+  bottom: -2rpx;
 }

@@ -7,6 +7,10 @@ Component({
     showReport:{
       type:Object,
       value:null
+    },
+    parkName:{
+      type:String,
+      value:null
     }
   },
   data: {
