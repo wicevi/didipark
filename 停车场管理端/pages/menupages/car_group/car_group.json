@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "my-plate-input":"/components/car_plate_input/car_plate_input"
+  },
+  "navigationBarTitleText": "车辆分组",
+  "navigationBarBackgroundColor": "#2d8cf0",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true
+}

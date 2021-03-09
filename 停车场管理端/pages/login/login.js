@@ -81,10 +81,12 @@ Page({
         if(res.data.Code=='success'){
           //登录成功
           app.requestHeader.Appsession=res.header.Appsession?res.header.Appsession:(res.header.appsession?res.header.appsession:res.header.AppSession);
+          console.log('LoginAppsession='+app.requestHeader.Appsession);
+          // wx.removeStorageSync('Appsession');
           wx.setStorage({
             data: app.requestHeader.Appsession,
             key: 'Appsession',
-          })
+          });
           this_.checkLogin(app.requestHeader.Appsession);
         }else{
           //登录失败
@@ -159,15 +161,14 @@ Page({
    */
   onLoad: function (options) {
     var this_=this;
-    var appSession=options.Appsession;
+    var isAppSession=options.isAppSession;
     this_.setData({
       eventChannel:this_.getOpenerEventChannel()
     })
-    if(appSession!=null){//登录验证
+    if(isAppSession!=null){//登录验证
       this.setData({
         isLogining:true
       });
-      app.requestHeader.Appsession=appSession;
       this_.checkLogin();
     }
     if(options.tip!=null){//提示信息

@@ -1,0 +1,44 @@
+/* pages/menupages/fee_strategy/fee_strategy.wxss */
+.fee-view{
+  border-radius: 16rpx;
+}
+.table-view{
+  border: 1rpx solid #dddee1;
+}
+.th-item{
+  height: 60rpx;
+  line-height: 60rpx;
+  border: 1rpx solid #dddee1;
+  font-size: 26rpx;
+}
+.td-item{
+  height: 60rpx;
+  line-height: 60rpx;
+  border: 1rpx solid #dddee1;
+  font-size: 26rpx;
+}
+.text-italic{
+  font-style: italic;
+}
+.fee-name-view{
+  padding: 0rpx 0rpx 10rpx 0rpx;
+}
+.fee-info-view{
+  color: #1c2438;
+}
+.fee-info-value-view{
+  display: inline-block;
+  padding: 0rpx 10rpx 0rpx 10rpx;
+  text-align: left;
+  font-weight: bold;
+}
+.order-info-item-view{
+  height: 56rpx;
+  border-bottom: 2rpx solid #dddee1;
+  color: #80848f;
+}
+.input-view{
+  text-align: left;
+  font-weight: bold;
+  color: #495060;
+}

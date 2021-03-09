@@ -4,7 +4,10 @@ Component({
    * 组件的属性列表
    */
   properties: {
-
+    limit:{
+      type:Number,
+      value:1,
+    }
   },
 
   /**
@@ -14,6 +17,7 @@ Component({
     plate:"",
     isInputing:false,
     isShow:false,
+    isPaste:false,
     // historyPlates:[
     // ]
   },
@@ -22,6 +26,24 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    //显示粘贴
+    openPaste(e){
+      this.setData({isPaste:true});
+    },
+    //关闭粘贴
+    closePaste(e){
+      this.setData({isPaste:false});
+    },
+    //粘贴车牌
+    pastePlate(e){
+      var this_=this;
+      wx.getClipboardData({
+        success: (option) => {
+          this_.showInput(option.data);
+        },
+      });
+      this.closePaste();
+    },
     //显示组件
     showInput(plate){
       this.setData({
@@ -40,12 +62,12 @@ Component({
     },
     //确认按键
     confirmPlate(e){
-      if(this.data.plate.length<7){
+      if(this.data.plate.length<7&&this.data.limit==1){
         wx.showToast({
           title: '输入完整车牌',
           image: '/images/tip.png'
         })
-      }else if(this.data.plate.length>8){
+      }else if(this.data.plate.length>8&&this.data.limit==1){
         wx.showToast({
           title: '输入车牌过长',
           image: '/images/tip.png'

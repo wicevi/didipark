@@ -1,0 +1,39 @@
+/* pages/car_group/car_group.wxss */
+.vip-list-item-view{
+  height: 52rpx;
+}
+.car-key-view{
+  line-height: 30rpx;
+  font-size: 30rpx;
+  margin-right: 16rpx;
+}
+.car-value-view{
+  text-align: center;
+  color: #495060;
+  line-height: 30rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-left: 10rpx;
+}
+.edit_btn{
+  padding: 6rpx 24rpx;
+  border-radius: 999rpx;
+}
+.edit_btn{
+  font-size: 26rpx;
+  text-align: center;
+  border-radius:999rpx;
+  padding: 8rpx 20rpx 10rpx;
+}
+.edit_btn:active{
+  background-color: #a1a1a1;
+}
+
+.modal-item-view{
+  height: 70rpx;
+  font-size: 32rpx;
+  padding: 8rpx 20rpx;
+  border: 1rpx solid #dddee1;
+  border-radius: 999rpx;
+  margin: 20rpx 0rpx;
+}

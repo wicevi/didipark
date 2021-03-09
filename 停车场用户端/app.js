@@ -25,7 +25,7 @@ App({
           method:"GET",
           success:res=>{
             if(res.data.Code=="success"){
-              this_.requestHeader.Appsession=res.header.Appsession;
+              this_.requestHeader.Appsession=res.header.Appsession?res.header.Appsession:(res.header.appsession?res.header.appsession:res.header.AppSession);
               this_.isLogin=true;
               wx.showToast({
                 title: '登录成功',

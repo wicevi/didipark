@@ -5,10 +5,11 @@
     "pages/menupages/fee_adjust/fee_adjust",
     "pages/menupages/blacklist_manage/blacklist_manage",
     "pages/menupages/add_edit_fee/add_edit_fee",
-    "pages/menupages/car_manage/car_manage",
     "pages/login/login",
     "pages/menupages/vip_manage/vip_manage",
-    "pages/menupages/history_report/history_report"
+    "pages/menupages/history_report/history_report",
+    "pages/menupages/fee_strategy/fee_strategy",
+    "pages/menupages/car_group/car_group"
   ],
   "window": {
     "backgroundColor": "#f0f0f0",

@@ -23,6 +23,15 @@ App({
     add_black:"/app/config/black/add",
     del_black:"/app/config/black/del",
     del_order:"/app/park/present/del",
+    prepay:"/app/io/order/prepay",
+    manual:"/app/park/present/manual",
+    fee_strategy:"/app/config/price/query",
+    add_fee_strategy:"/app/config/price/add",
+    mod_fee_strategy:"/app/config/price/mod",
+    del_fee_strategy:"/app/config/price/del",
+    query_group:"/app/config/group/query",
+    addplate_group:"/app/config/group/addplate",
+    delplate_group:"/app/config/group/delplate",
   },
   onLaunch: function () {
     //获取导航栏相关

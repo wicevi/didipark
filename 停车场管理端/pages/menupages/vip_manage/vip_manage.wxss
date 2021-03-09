@@ -1,7 +1,7 @@
 /* pages/menupages/vip_manage/vip_manage.wxss */
 .delete-view{
   position: absolute;
-  z-index: 99;
+  z-index: 1;
   right: 30rpx;
   background-color: #ed3f14;
   margin-left: auto;
@@ -62,9 +62,10 @@
   width: 120rpx;
   height: 120rpx;
   line-height: 120rpx;
-  position: absolute;
+  position: fixed;
   bottom: 160rpx;
   right: 50rpx;
+  z-index: 999;
   text-align: center;
   font-size: 70rpx;
 }

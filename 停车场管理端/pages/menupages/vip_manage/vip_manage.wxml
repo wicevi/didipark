@@ -6,7 +6,7 @@
     月卡数量：<text class="text-primer text-lg text-bold">{{vipCars.length}}</text>
   </view>
   <view class="text-black text-lg" wx:else>
-    搜索车牌：<text class="text-black text-xl text-bold" bindtap="search_btn_click">{{tools.strToPlate(searchPlate)}}</text>
+    搜索车牌：<text class="text-black text-xl text-bold" bindtap="search_btn_click">{{searchPlate}}</text>
   </view>
   <view class="flex">
     <view class="my-btn bg-Primary shadow-blur-min" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="search_btn_click" wx:if="{{tools.strlen(searchPlate)==0}}">
@@ -43,7 +43,7 @@
       <view class="flex-twice flex align-center">
         <view class="text-grey car-key-view">车牌</view>
         <view class="car-value-view">{{tools.strToPlate(item.Plate)}}</view>
-        <text class="cuIcon-copy margin-left-xs text-xxl text-primer item-text-btn"></text>
+        <text class="cuIcon-copy margin-left-xs text-xxl text-primer item-text-btn" data-plate="{{item.Plate}}" bindtap="copyPlate"></text>
       </view>
       <view class="flex-twice flex align-center">
         <view class="text-grey car-key-view">类型</view>
@@ -58,7 +58,7 @@
       <view class="flex-twice flex align-center">
         <view class="text-grey car-key-view">电话</view>
         <view class="car-value-view">{{item.Phone?item.Phone:'暂无'}}</view>
-        <text class="cuIcon-phone margin-left-xs text-xxl text-green item-text-btn" wx:if="{{item.Phone}}"></text>
+        <text class="cuIcon-phone margin-left-xs text-xxl text-green item-text-btn" wx:if="{{item.Phone}}" data-phone="{{item.Phone}}" bindtap="callPhone"></text>
       </view>
     </view>
     <view class="flex align-center justify-between vip-list-item-view">
@@ -118,7 +118,7 @@
         <view class="flex-sub">
           车牌
         </view>
-        <input class="flex-twice text-left text-grey {{vipPlate?'text-bold':''}}"  placeholder="请输入车辆车牌号码" value="{{vipPlate}}" bindinput="inputVipPlate"></input>
+        <input class="flex-twice text-left text-grey {{vipPlate?'text-bold':''}}"  placeholder="请输入车辆车牌号码" value="{{vipPlate}}" bindinput="inputVipPlate" disabled="disabled" bindtap="openInputView_Vip"></input>
       </view>
       <view class="flex align-center modal-item-view">
         <view class="flex-sub">
@@ -184,7 +184,8 @@
   </view>
 </view>
 <!-- 车牌输入 -->
-<my-plate-input id="my-plate-input" bind:confirm="confirm"></my-plate-input>
+<my-plate-input id="my-plate-input" bind:confirm="confirm" limit="0"></my-plate-input>
+<my-plate-input id="my-plate-input-vip" bind:confirm="confirm_Vip" limit="1"></my-plate-input>
 <!-- 添加按钮 -->
 <view class="add-btn-view shadow-blur" bindtap="addVip">
   <text class="cuIcon-add"></text>

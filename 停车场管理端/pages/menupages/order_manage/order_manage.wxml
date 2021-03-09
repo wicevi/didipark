@@ -3,10 +3,10 @@
 <!-- 标题框 -->
 <view class="bg-white shadow flex align-center padding-sm justify-between top-bar">
   <view class="text-black text-lg" wx:if="{{tools.strlen(searchPlate)==0}}">
-    {{PageCur=='inOrder'?'在场':'离场'}}订单数量：<text class="text-primer text-lg text-bold">{{orderList.length}}</text>
+    {{PageCur=='inOrder'?'在场':'离场'}}订单数量：<text class="text-primer text-lg text-bold">{{orderList?orderList.length:0}}</text>
   </view>
   <view class="text-black text-lg" wx:else>
-    搜索{{PageCur=='inOrder'?'在场':'离场'}}车牌：<text class="text-black text-xl text-bold" bindtap="search_btn_click">{{tools.strToPlate(searchPlate)}}</text>
+    搜索{{PageCur=='inOrder'?'在场':'离场'}}车牌：<text class="text-black text-xl text-bold" bindtap="search_btn_click">{{searchPlate}}</text>
   </view>
   <view class="flex">
     <view class="my-btn bg-Primary shadow-blur-min" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="search_btn_click" wx:if="{{tools.strlen(searchPlate)==0}}">
@@ -41,23 +41,25 @@
   <view class="flex-sub"></view>
 </view>
 <!--详细订单列表-->
-<view class="order-list-view margin-lr margin-tb-sm padding-tb-xs bg-white shadow" wx:for="{{orderList}}" data-index="{{index}}" bindtap="tapOrder">
-  <view class="flex align-center">
-    <view class="flex-sub text-center">
-      <view class="order-item-value-view">
-        {{tools.strToPlate(item.Plate)}}
+<block wx:for="{{orderList}}" wx:key='key'>
+  <view class="order-list-view margin-lr margin-tb-sm padding-tb-xs bg-white shadow"  data-index="{{index}}" bindtap="tapOrder">
+    <view class="flex align-center">
+      <view class="flex-sub text-center">
+        <view class="order-item-value-view" style="{{item.Status=='Abnormal'&&PageCur=='outOrder'?'color:#e54d42;':(item.Status=='Unpay'&&PageCur=='outOrder'?'color:#ff9900;':'')}}">
+          {{tools.strToPlate(item.Plate)}}
+        </view>
       </view>
-    </view>
-    <view class="flex-sub text-center">
-      <view class="order-item-value-view">
-        {{tools.timeRemoveSecond(PageCur=='inOrder'?item.InTime:item.OutTime)}}
+      <view class="flex-sub text-center">
+        <view class="order-item-value-view" style="{{item.Status=='Abnormal'&&PageCur=='outOrder'?'color:#e54d42;':(item.Status=='Unpay'&&PageCur=='outOrder'?'color:#ff9900;':'')}}">
+          {{tools.timeRemoveSecond(PageCur=='inOrder'?item.InTime:item.OutTime)}}
+        </view>
       </view>
     </view>
   </view>
-</view>
+</block>
 <view class="padding-xs"></view>
 <!-- 车牌输入 -->
-<my-plate-input id="my-plate-input" bind:confirm="confirm"></my-plate-input>
+<my-plate-input id="my-plate-input" bind:confirm="confirm" limit="0"></my-plate-input>
 <!-- 订单详情弹窗 -->
 <view class="cu-modal {{isOpenModal_info?'show':''}}">
   <view class="cu-dialog">
@@ -69,7 +71,7 @@
         </view>
         <view class="flex align-center justify-start flex-treble padding-right-sm padding-left-xs">
           <view class="text-black text-bold">{{tools.strToPlate(orderList[orderIndex].Plate)}}</view>
-          <text class="cuIcon-copy margin-left-xs text-xxl text-primer order-info-text-btn"></text>
+          <text class="cuIcon-copy margin-left-xs text-xxl text-primer order-info-text-btn" data-plate="{{orderList[orderIndex].Plate}}" bindtap="copyPlate"></text>
         </view>
       </view>
       <!-- 车辆类型 -->
@@ -78,7 +80,16 @@
           <view>车辆类型</view>
         </view>
         <view class="flex align-center justify-between flex-treble padding-right-sm padding-left-xs">
-          <view class="text-black text-bold">临时车辆</view>
+          <view class="text-black text-bold">{{orderList[orderIndex].PlateType}}</view>
+        </view>
+      </view>
+      <!-- 包月信息 -->
+      <view class="flex align-center order-info-item-view  margin-top-sm" wx:if="{{orderList[orderIndex].VipDate}}">
+        <view class="text-left padding-lr-sm">
+          <view>包月时间</view>
+        </view>
+        <view class="flex align-center justify-between flex-treble padding-right-sm padding-left-xs">
+          <view class="text-black text-bold">{{orderList[orderIndex].VipDate}}</view>
         </view>
       </view>
       <!-- 进场时间 -->
@@ -145,6 +156,9 @@
         </view>
         <view class="flex align-center justify-between flex-treble padding-right-sm padding-left-xs">
           <view class="text-red text-bold">{{tools.toFix_2(orderList[orderIndex].Price/100)}}元</view>
+          <view class="order-info-text-btn text-primer" bindtap="refreshPrice" wx:if="{{PageCur=='inOrder'}}">
+            刷新费用<text class="cuIcon-refresh text-xxl" style="margin-left:5rpx;"></text>
+          </view>
         </view>
       </view>
     </view>
@@ -153,10 +167,13 @@
         <!-- <view class="margin-left padding-xs my-btn bg-blue" bindtap="finishAndOpen">
           <text>结算并开闸</text>
         </view> -->
-        <view class="margin-left padding-xs padding-lr my-btn bg-red" bindtap="finish" wx:if="{{!orderList[orderIndex].OutTime}}">
-          <text>结算</text>
+        <view class="margin-left-sm padding-xs padding-lr my-btn bg-green" bindtap="refreshPrice" wx:if="{{PageCur=='inOrder'}}" data-ismanual="ture">
+          <text>人工收费</text>
         </view>
-        <view class="margin-left padding-xs padding-lr my-btn bg-grey" bindtap="closeModal_info">
+        <view class="margin-left-sm padding-xs padding-lr my-btn bg-red" bindtap="showConfirmDelModal" wx:if="{{PageCur=='inOrder'}}">
+          <text>异常结算</text>
+        </view>
+        <view class="margin-left-sm padding-xs padding-lr my-btn bg-grey" bindtap="closeModal_info">
           <text>关闭</text>
         </view>
       </view>
@@ -184,4 +201,60 @@
   <!-- <view class='cuIcon-emojifill text-orange'></view> -->
   <image src='/images/logo.png' class='png' mode='aspectFit'></image>
   <view class='gray-text'>加载数据中...</view>
+</view>
+<!-- 确认结算弹窗 -->
+<view class="cu-modal {{confirmDelModal?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">确认结算订单</view>
+      <view class="action" bindtap="hideConfirmDelModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-top-xl flex justify-center">
+      <image style="width:80rpx;height:80rpx;" src="/images/finish.png"></image>
+    </view>
+    <view class="padding-bottom-xl padding-lr-xl padding-top margin">
+      <view class="text-lg text-left">请确认是否将异常车辆<text class="text-lg text-bold text-black margin-lr-xs">{{tools.strToPlate(orderList[orderIndex].Plate)}}</text>的订单手动结算掉</view>
+      <view class="text-sm text-red text-left">注：结算之后该订单失效</view>
+    </view>
+    <view class="cu-bar bg-white justify-end">
+      <view class="action">
+        <view class="margin-left padding-xs padding-lr my-btn bg-red round" bindtap="finish">
+          <text>确认结算</text>
+        </view>
+        <view class="margin-left padding-xs padding-lr my-btn bg-grey round" bindtap="hideConfirmDelModal">
+          <text>取消</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<!-- 确认人工收费弹窗弹窗 -->
+<view class="cu-modal {{confirmManualModal?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">确认收费成功</view>
+      <view class="action" bindtap="hideConfirmManualModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-top-xl flex justify-center">
+      <image style="width:80rpx;height:80rpx;" src="/images/manual.png"></image>
+    </view>
+    <view class="padding-bottom-xl padding-lr-xl padding-top margin">
+      <view class="text-lg text-left">请确认是否已经对车辆<text class="text-lg text-bold text-black margin-lr-xs">{{tools.strToPlate(orderList[orderIndex].Plate)}}</text>的停车费用:<text class="text-lg text-bold text-red margin-lr-xs">{{tools.toFix_2(orderList[orderIndex].Price/100)}}元</text>收取完毕</view>
+      <view class="text-sm text-red text-left">注：确认之后该订单完成</view>
+    </view>
+    <view class="cu-bar bg-white justify-end">
+      <view class="action">
+        <view class="margin-left padding-xs padding-lr my-btn bg-green round" bindtap="manualFinish">
+          <text>确认完成</text>
+        </view>
+        <view class="margin-left padding-xs padding-lr my-btn bg-grey round" bindtap="hideConfirmManualModal">
+          <text>取消</text>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

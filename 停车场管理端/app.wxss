@@ -39,6 +39,7 @@
   width: 100%;
   position: fixed;
   top: 0rpx;
+  z-index: 999;
 }
 .top-bar-view{
   height: 100rpx;

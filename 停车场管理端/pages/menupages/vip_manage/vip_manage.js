@@ -48,6 +48,15 @@ Page({
     });
     this.updateVipCars();
   },
+  openInputView_Vip(e){
+    var inputView=this.selectComponent('#my-plate-input-vip');
+    inputView.showInput(this.data.vipPlate);
+  },
+  confirm_Vip(e){
+    this.setData({
+      vipPlate:e.detail.inputPlate,
+    });
+  },
   search_btn_click(e){
     this.openInputView();
   },
@@ -56,10 +65,29 @@ Page({
     this.updateVipCars();
   },
   write_btn_click(e){
+    if(app.globalData.userInfo.userGroup=='operator'){
+      wx.showToast({
+        title: '权限不足',
+        image: '/images/tip.png'
+      });
+      return;
+    };
     this.setData({isEdit:true});
   },
   close_write_btn_click(e){
     this.setData({isEdit:false});
+  },
+  copyPlate(event){
+    var plate=event.currentTarget.dataset.plate;
+    wx.setClipboardData({
+      data: plate,
+    })
+  },
+  callPhone(event){
+    var phone=event.currentTarget.dataset.phone;
+    wx.makePhoneCall({
+      phoneNumber: phone,
+    })
   },
   //关闭确认窗口
   hideConfirmDeleteModal(e){
@@ -119,6 +147,13 @@ Page({
   },
   //添加按钮
   addVip(e){
+    if(app.globalData.userInfo.userGroup=='operator'){
+      wx.showToast({
+        title: '权限不足',
+        image: '/images/tip.png'
+      });
+      return;
+    };
     this.setData({
       vipSelect:1,
       startDate:util.getDate(),
@@ -184,7 +219,11 @@ Page({
             wx.showToast({
               title: this_.data.addModal?'添加':'修改'+'成功',
               image:'/images/success.png'
-            })
+            });
+            this_.setData({
+              addModal:false,
+              editModal:false,
+            });
           }else{
             wx.showModal({
               title: this_.data.addModal?'添加':'修改'+'月卡信息异常',
@@ -203,8 +242,6 @@ Page({
           this_.setData({
             isLoading:false,
             vipCars:this_.data.vipCars,
-            addModal:false,
-            editModal:false,
           });
         },
       })
@@ -278,9 +315,9 @@ Page({
     };
     if(app.globalData.parkList&&app.globalData.parkIndex<app.globalData.parkList.length){
       this_.setData({isLoading:true});
-      if(this.data.searchPlate.length==7||this.data.searchPlate.length==8){
+      // if(this.data.searchPlate.length==7||this.data.searchPlate.length==8){
         data_.Plate=this.data.searchPlate;
-      }
+      // }
       wx.request({
         url: app.HOST+app.URLS.query_vipcars,
         header:app.requestHeader,

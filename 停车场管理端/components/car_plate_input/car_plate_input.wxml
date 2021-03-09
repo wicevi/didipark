@@ -5,8 +5,11 @@
   <view class="close-text" bindtap="hideInput">
     <text class="cuIcon-close text-lg text-red"></text>
   </view>
+  <view class="paste-view" bindtap="pastePlate" wx:if="{{isPaste}}">
+    粘贴
+  </view>
   <view class="inpu-view">
-    <view class="{{plate?'text-black text-bold':'text-grey'}}    input-plate-view{{isInputing?'-selected':''}} shadow-blur" bindtap="openBoard">{{plate?tools.strToPlate(plate):'请输入车牌号码'}}</view>
+    <view class="{{plate?'text-black text-bold':'text-grey'}}    input-plate-view{{isInputing?'-selected':''}} shadow-blur" bindtap="openBoard" bindlongtap="openPaste">{{plate?(limit==1?tools.strToPlate(plate):plate):'请输入车牌号码'}}</view>
     <view class="query-pay-btn shadow-blur" bindtap="confirmPlate">确认</view>
   </view>
 <!-- 历史记录 -->
@@ -26,5 +29,5 @@
   </view> -->
 </view>
 <!-- 车牌输入键盘 -->
-<plate-keyboard id="my-keyboard" bind:finish="finish" bind:input="input" bind:close="close"></plate-keyboard>
+<plate-keyboard id="my-keyboard" bind:finish="finish" bind:input="input" bind:close="close" limit="{{limit}}"></plate-keyboard>
 </view>

@@ -15,21 +15,25 @@
 <view class="data-info-view padding-sm bg-white shadow">
   <view class="data-info-top text-sub flex align-center text-center">
     <view class="flex-treble">日期:<text class="text-bold padding-xs">{{showReport.data?showReport.data.Date:'----/--/--'}}</text></view>
-    <view class="flex-twice">订单:<text class="padding-xs text-primer text-bold">{{showReport.data?showReport.data.VipCount+showReport.data.IOCount+showReport.data.AbnormalCount:'---'}}</text></view>
-    <view class="flex-twice">收入:<text class="text-price padding-xs text-red text-bold">{{showReport.data?tools.toFix_2((showReport.data.VipPrice+showReport.data.IOPrice)/100):'---'}}</text></view>
+    <view class="flex-twice">订单:<text class="padding-xs text-primer text-bold">{{showReport.data?showReport.data.VipCount+showReport.data.IOCount+showReport.data.AbnormalCount+showReport.data.ManualCount:'---'}}</text></view>
+    <view class="flex-twice">收入:<text class="text-price padding-xs text-red text-bold">{{showReport.data?tools.toFix_2((showReport.data.VipPrice+showReport.data.IOPrice+showReport.data.ManualPrice)/100):'---'}}</text></view>
     <!-- <view class="padding-xs text-sm my-btn bg-blue margin-right-xs" bindtap="refresh" wx:if="{{!showReport.isLoad}}">刷新<text class="cuIcon-refresh margin-left-xs"></text></view>
     <view class="padding-xs text-sm my-btn bg-blue margin-right-xs" wx:if="{{showReport.isLoad}}">加载中...</view> -->
   </view>
-  <block wx:if="{{showReport.isLoad}}">
+  <block wx:if="{{showReport.isOperator}}">
+    <image src="/images/qxbz.png" style="width:120rpx;height:120rpx;margin:30rpx auto 0rpx;display:block;"></image>
+    <view class="text-center margin-bottom">无报表数据可获取</view>
+  </block>
+  <block wx:if="{{showReport.isLoad&&!showReport.isOperator}}">
     <image src="/images/loading3.gif" style="width:120rpx;height:120rpx;margin:0rpx auto;display:block;"></image>
     <view class="text-center">加载数据中...</view>
   </block>
-  <block wx:if="{{!showReport.isLoad&&!showReport.data}}">
+  <block wx:if="{{!showReport.isLoad&&!showReport.data&&!showReport.isOperator}}">
     <image src="/images/error.png" style="width:80rpx;height:80rpx;margin:20rpx auto;display:block;"></image>
     <view class="text-center text-red">{{showReport.err_info}}</view>
     <view class="text-center text-red">请下拉刷新重试</view>
   </block>
-  <block wx:if="{{!showReport.isLoad&&showReport.data}}">
+  <block wx:if="{{!showReport.isLoad&&showReport.data&&!showReport.isOperator}}">
     <view class="data-info-table-title text-df text-bold flex align-center text-center padding-top-xs">
       <view class="flex-treble">类型</view>
       <view class="flex-twice">数量</view>
@@ -44,6 +48,11 @@
       <view class="flex-treble">临时缴费订单</view>
       <view class="flex-twice">{{showReport.data.IOCount}}</view>
       <view class="flex-twice text-price">{{tools.toFix_2(showReport.data.IOPrice/100)}}</view>
+    </view>
+    <view class="data-info-table-tb text-df flex align-center text-center padding-top-xs">
+      <view class="flex-treble">人工收费订单</view>
+      <view class="flex-twice">{{showReport.data.ManualCount}}</view>
+      <view class="flex-twice text-price">{{tools.toFix_2(showReport.data.ManualPrice/100)}}</view>
     </view>
     <view class="data-info-table-tb text-df flex align-center text-center padding-top-xs">
       <view class="flex-treble">异常进出订单</view>

@@ -1,0 +1,138 @@
+<wxs module="tools" src="../../../utils/tool.wxs"></wxs>
+<!-- 标题框 -->
+<view class="bg-white shadow flex align-center padding-sm justify-between top-bar">
+  <picker class="text-bold text-grey text-lg" range="{{carGroup}}" range-key="Name" value="{{carGroupIndex}}" bindchange="carGroupChange">
+    {{carGroup.length>0?(carGroupIndex>=0?carGroup[carGroupIndex].Name:'暂未选择分组'):'暂无车辆分组'}}<text class="cuIcon-unfold padding-left-xs"></text>
+  </picker>
+  <view class="flex">
+    <view class="my-btn bg-Primary shadow-blur-min" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="add_btn_click" wx:if="{{carGroup||carGroup.length>0}}">
+      <text>添加</text>
+      <text class="cuIcon-add padding-left-xs"></text>
+    </view>
+    <view class="my-btn bg-Primary margin-left-sm shadow-blur-min" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="write_btn_click" wx:if="{{!isEdit}}">
+      <text>编辑</text>
+      <text class="cuIcon-write padding-left-xs"></text>
+    </view>
+    <view class="my-btn bg-grey margin-left-sm shadow-blur-min" style="padding:12rpx 20rpx;border-radius: 9999rpx;" bindtap="close_write_btn_click" wx:else>
+      <text>退出编辑</text>
+    </view>
+  </view>
+</view>
+<view class="top-bar-view"></view>
+<!--车辆分组为空-->
+<view class="margin align-center flex" wx:if="{{!carGroup||carGroup.length==0||carGroup[carGroupIndex].Plates.length==0}}">
+  <view class="flex-sub"></view>
+  <image src="/images/sad.png" style="width:60rpx;height:60rpx;"></image>
+  <text class="text-bold text-xl margin-left-xs">{{carGroup.length>0?(carGroupIndex>=0?'该分组还未添加车辆':'请先选择车辆分组'):'该车场暂无车辆分组'}}</text>
+  <view class="flex-sub"></view>
+</view>
+<!-- 车辆列表 -->
+<block wx:else>
+  <view wx:for="{{carGroup[carGroupIndex].Plates}}" class="margin">
+    <view class="bg-white padding-lr padding-tb-sm shadow" style="border-radius:16rpx">
+      <view class="flex align-center vip-list-item-view">
+        <view class="flex-twice flex align-center">
+          <view class="text-grey car-key-view">车牌</view>
+          <view class="car-value-view">{{tools.strToPlate(item.Plate)}}</view>
+          <text class="cuIcon-copy margin-left-xs text-xxl text-primer item-text-btn" data-plate="{{item.Plate}}" bindtap="copyPlate"></text>
+        </view>
+        <view class="flex-twice flex align-center">
+          <view class="text-grey car-key-view">车主</view>
+          <view class="car-value-view">{{item.Owner?item.Owner:'暂无'}}</view>
+        </view>
+      </view>
+      <view class="flex align-center vip-list-item-view">
+        <view class="flex-twice flex align-center">
+          <view class="text-grey car-key-view">电话</view>
+          <view class="car-value-view">{{item.Phone?item.Phone:'暂无'}}</view>
+          <text class="cuIcon-phone margin-left-xs text-xxl text-green item-text-btn" wx:if="{{item.Phone}}" data-phone="{{item.Phone}}" bindtap="callPhone"></text>
+        </view>
+        <view class="flex-twice flex align-center">
+          <view class="bg-red edit_btn shadow-blur-min" bindtap="deleteCar" data-index="{{index}}" wx:if="{{isEdit}}">删除<text class="cuIcon-delete padding-left-xs"></text></view>
+          <view class="bg-Primary edit_btn shadow-blur-min margin-left-xs" bindtap="editCar" data-index="{{index}}" wx:if="{{isEdit}}">修改<text class="cuIcon-edit padding-left-xs"></text></view>
+        </view>
+      </view>
+    </view>
+  </view>
+</block>
+<!-- 确认删除窗口 -->
+<view class="cu-modal {{confirmDeleteModal?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">确认删除车辆信息</view>
+      <view class="action" bindtap="hideConfirmDeleteModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-top-xl flex justify-center">
+      <image style="width:80rpx;height:80rpx;" src="/images/delete.png"></image>
+    </view>
+    <view class="padding-bottom-xl padding-lr-xl padding-top margin">
+      <view class="text-lg text-left">请确认将车辆<text class="car-value-view margin-lr-xs">{{tools.strToPlate(carGroup[carGroupIndex].Plates[carPlateIndex].Plate)}}</text>从该分组中删除</view>
+      <view class="text-sm text-red text-left">注：删除之后车辆出场将按默认收费策略缴费</view>
+    </view>
+    <view class="cu-bar bg-white justify-end">
+      <view class="action">
+        <view class="margin-left padding-xs padding-lr my-btn bg-red round" bindtap="deleteGroupCar">
+          <text>确认删除</text>
+        </view>
+        <view class="margin-left padding-xs padding-lr my-btn bg-grey round" bindtap="hideConfirmDeleteModal">
+          <text>取消</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<!-- 添加修改窗口 -->
+<view class="cu-modal {{(addModal||editModal)?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">{{addModal?'添加':'修改'}}车辆信息</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="margin-bottom-xl margin-lr-xl">
+      <view class="padding-tb-xl flex justify-center">
+        <image style="width:100rpx;height:100rpx;" src="/images/car_info.png"></image>
+      </view>
+      <view class="flex align-center modal-item-view">
+        <view class="flex-sub">
+          车牌
+        </view>
+        <input class="flex-twice text-left text-grey {{carPlate?'text-bold':''}}"  placeholder="请输入车辆车牌号码" value="{{carPlate}}" disabled="disabled" bindtap="openInputView_Car"></input>
+      </view>
+      <view class="flex align-center modal-item-view">
+        <view class="flex-sub">
+          车主
+        </view>
+        <input class="flex-twice text-left text-grey {{owner?'text-bold':''}}"  placeholder="请输入车辆车主姓名" value="{{owner}}" bindinput="inputOwner"></input>
+      </view>
+      <view class="flex align-center modal-item-view">
+        <view class="flex-sub">
+          电话
+        </view>
+        <input class="flex-twice text-left text-grey {{phone?'text-bold':''}}" type="number" maxlength="11"  placeholder="请输入车主联系电话" value="{{phone}}" bindinput="inputPhone"></input>
+      </view>
+    </view>
+    <view class="padding"></view>
+    <view class="cu-bar bg-white justify-end">
+      <view class="action">
+        <view class="margin-left padding-xs padding-lr my-btn bg-Primary round" bindtap="addGroupCar">
+          <text>确认{{addModal?'添加':'修改'}}</text>
+        </view>
+        <view class="margin-left padding-xs padding-lr my-btn bg-grey round" bindtap="hideModal">
+          <text>取消</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<!-- 车牌输入 -->
+<my-plate-input id="my-plate-input-car" bind:confirm="confirm_Car" limit="1"></my-plate-input>
+<!-- 加载进度弹窗 -->
+<view class='cu-load load-modal' wx:if="{{isLoading}}">
+  <!-- <view class='cuIcon-emojifill text-orange'></view> -->
+  <image src='/images/logo.png' class='png' mode='aspectFit'></image>
+  <view class='gray-text'>加载数据中...</view>
+</view>

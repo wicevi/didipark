@@ -19,11 +19,11 @@
   <view class="flex align-center justify-center {{controlSet.cameraPic?'padding-tb-xs':'padding'}}">
     <image class="video-img" src="http://shuzhi.xyz{{controlSet.cameraPic}}" wx:if="{{controlSet.cameraPic}}"></image>
     <block wx:if="{{!controlSet.cameraPic}}">
-      <view class="padding-xs">
+      <view class="padding-lr-xs padding-tb">
         <image class="video-view-tip-img" src="../../../images/unpic.png"></image>
       </view>
       <view class="padding-bottom-xs">
-        <text class="text-lg text-red">暂未抓拍</text>
+        <text class="text-lg text-bold text-primer">暂未抓拍</text>
       </view>
     </block>
   </view>
@@ -71,7 +71,7 @@
   </block>
   <block wx:if="{{!controlSet.cameraList}}">
     <view class="daozha-view flex align-center justify-center padding">
-      <text class="text-red">未获取到控制数据，请下拉刷新重新获取</text>
+      <text class="text-red padding" >未获取到控制数据，请下拉刷新重新获取</text>
     </view>
   </block>
   <block wx:if="{{controlSet.cameraList&&controlSet.cameraList.length==0}}">
@@ -145,7 +145,7 @@
   </view>
   <block wx:if="{{!controlSet.parkSet}}">
     <view class="daozha-view flex align-center justify-center padding">
-      <text class="text-red">未获取到控制数据，请下拉刷新重新获取</text>
+      <text class="text-{{controlSet.isOperator?'primer':'red'}} padding">{{controlSet.isOperator?'暂无可控制项':'未获取到控制数据，请下拉刷新重新获取'}}</text>
     </view>
   </block>
 </view>

@@ -29,13 +29,20 @@ Component({
         icon: 'vip',
         path:'/pages/menupages/vip_manage/vip_manage'
       },
-      // {
-      //   title: '车辆管理',
-      //   name: 'car manage',
-      //   color: 'orange',
-      //   icon: 'taxi',
-      //   path:'/pages/menupages/car_manage/car_manage'
-      // },
+      {
+        title: '收费策略',
+        name: 'fee strategy',
+        color: 'green',
+        icon: 'moneybag',
+        path:'/pages/menupages/fee_strategy/fee_strategy'
+      },
+      {
+        title: '车辆分组',
+        name: 'car group',
+        color: 'purple',
+        icon: 'taxi',
+        path:'/pages/menupages/car_group/car_group'
+      },
       {
         title: '历史报表',
         name: 'history report',
@@ -53,8 +60,6 @@ Component({
     ],
   },
   methods:{
-    refresh:function(e){
-      this.triggerEvent("Fresh",null);
-    }
+
   },
 })

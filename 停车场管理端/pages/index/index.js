@@ -14,6 +14,7 @@ Page({
     reportData:{
       data:null,
       isLoad:false,
+      isOperator:false,
       err_info:""
     },
     //control页数据
@@ -27,6 +28,7 @@ Page({
       Plate_NoIn_OutMode_index:0,
       Round_Price_Str:['不取整','向上0.5元取整','向下0.5元取整','向上一元取整','向下一元取整','四舍五入取整'],
       Round_Price:0,
+      isOperator:false,
       isControling:false
     },
     //user页数据
@@ -65,6 +67,15 @@ Page({
   //更新本日报表事件
   updateReportData(e) {
     var this_=this;
+    if(app.globalData.userInfo.userGroup=='operator'){
+      this_.data.reportData.isOperator=true;
+      this_.data.reportData.data=null;
+      this.setData({reportData:this_.data.reportData});
+      wx.stopPullDownRefresh();
+      return;
+    }else{
+      this_.data.reportData.isOperator=false;
+    }
     if(app.globalData.parkList&&app.globalData.parkIndex<app.globalData.parkList.length){
       this_.data.reportData.isLoad=true;
       this_.data.reportData.data=null;
@@ -126,46 +137,56 @@ Page({
           console.log(res);
           if(res.data.Code=="success"){
             this_.data.controlData.cameraList=res.data.Result;
-            //获取车场配置
-            wx.request({
-              url: app.HOST+app.URLS.query_parksets,
-              header:app.requestHeader,
-              data:data_,
-              success:function(res){
-                console.log(res);
-                if(res.data.Code=="success"){
-                  this_.data.controlData.parkSet=res.data.Result;
-                  if(this_.data.controlData.parkSet.NoPlate_OutMode=="minprice")this_.data.controlData.NoPlate_OutMode_index=1;
-                  else if(this_.data.controlData.parkSet.NoPlate_OutMode=="manual")this_.data.controlData.NoPlate_OutMode_index=2;
-                  else this_.data.controlData.NoPlate_OutMode_index=0;
-                  if(this_.data.controlData.parkSet.Plate_NoIn_OutMode=="minprice")this_.data.controlData.Plate_NoIn_OutMode_index=1;
-                  else if(this_.data.controlData.parkSet.Plate_NoIn_OutMode=="manual")this_.data.controlData.Plate_NoIn_OutMode_index=2;
-                  else this_.data.controlData.Plate_NoIn_OutMode_index=0;
+            if(app.globalData.userInfo.userGroup=='operator'){
+              this_.data.controlData.isOperator=true;
+              this_.data.controlData.isControling=false;
+              this_.data.controlData.parkSet=null;
+              this_.setData({controlData:this_.data.controlData});
+              wx.stopPullDownRefresh();
+              return;
+            }else{
+              this_.data.controlData.isOperator=false;
+              //获取车场配置
+              wx.request({
+                url: app.HOST+app.URLS.query_parksets,
+                header:app.requestHeader,
+                data:data_,
+                success:function(res){
+                  console.log(res);
+                  if(res.data.Code=="success"){
+                    this_.data.controlData.parkSet=res.data.Result;
+                    if(this_.data.controlData.parkSet.NoPlate_OutMode=="minprice")this_.data.controlData.NoPlate_OutMode_index=1;
+                    else if(this_.data.controlData.parkSet.NoPlate_OutMode=="manual")this_.data.controlData.NoPlate_OutMode_index=2;
+                    else this_.data.controlData.NoPlate_OutMode_index=0;
+                    if(this_.data.controlData.parkSet.Plate_NoIn_OutMode=="minprice")this_.data.controlData.Plate_NoIn_OutMode_index=1;
+                    else if(this_.data.controlData.parkSet.Plate_NoIn_OutMode=="manual")this_.data.controlData.Plate_NoIn_OutMode_index=2;
+                    else this_.data.controlData.Plate_NoIn_OutMode_index=0;
+                    wx.showToast({
+                      title: '获取数据成功',
+                      image:'/images/success.png'
+                    })
+                  }else{
+                    wx.showModal({
+                      title: '获取数据失败',
+                      content: res.data.Message,
+                      showCancel:false
+                    })
+                  }
+                },
+                fail:function(e){
                   wx.showToast({
-                    title: '获取数据成功',
-                    image:'/images/success.png'
+                    title: '连接服务器异常',
+                    image:'/images/error.png'
                   })
-                }else{
-                  wx.showModal({
-                    title: '获取数据失败',
-                    content: res.data.Message,
-                    showCancel:false
-                  })
+                },
+                complete:function(res){
+                  this_.data.controlData.isControling=false;
+                  this_.setData({controlData:this_.data.controlData});
+                  //停止下拉刷新
+                  wx.stopPullDownRefresh();
                 }
-              },
-              fail:function(e){
-                wx.showToast({
-                  title: '连接服务器异常',
-                  image:'/images/error.png'
-                })
-              },
-              complete:function(res){
-                this_.data.controlData.isControling=false;
-                this_.setData({controlData:this_.data.controlData});
-                //停止下拉刷新
-                wx.stopPullDownRefresh();
-              }
-            })
+              })
+            }
           }else{
             wx.showModal({
               title: '获取数据失败',
@@ -488,8 +509,10 @@ Page({
       wx.getStorage({
         key: 'Appsession',
         success:function(e){
+          console.log('StorageAppsession='+e.data);
           //如果有 尝试验证
-          this_.goLogin('Appsession='+e.data);
+          app.requestHeader.Appsession=e.data;
+          this_.goLogin('isAppSession=ture');
         },
         fail:function(e){
           //没有

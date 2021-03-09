@@ -27,9 +27,19 @@ var tools = {
   },
   timeRemoveSecond: function(time){
     var reStr="";
-    if(time==null&&time.length!=19)return 'xxxx-xx-xx xx:xx';
+    if(time==null||time.length!=19)return 'xxxx-xx-xx xx:xx';
     else{
       for(var i=0;i<16;i++){
+        reStr+=time[i];
+      }
+      return reStr;
+    }
+  },
+  timeRemoveSecond_unday: function(time){
+    var reStr="";
+    if(time==null||time.length!=8)return 'xx:xx';
+    else{
+      for(var i=0;i<5;i++){
         reStr+=time[i];
       }
       return reStr;
@@ -55,6 +65,29 @@ var tools = {
     var expireTime = Date.parse(expireDate);
     var lastTime=(expireTime-nowTime)/1000/60/60/24;
     return lastTime;
+  },
+  getTimeLen:function(second){
+    var reStr="";
+    if(second>=31536000){
+      reStr+=(second/31536000+"年");
+      second=second%31536000;
+    }
+    if(second>=86400){
+      reStr+=(second/86400+"天");
+      second=second%86400;
+    }
+    if(second>=3600){
+      reStr+=(second/3600+"小时");
+      second=second%3600;
+    }
+    if(second>=60){
+      reStr+=(second/60+"分钟");
+      second=second%60;
+    }
+    if(second>0){
+      reStr+=(second+"秒");
+    }
+    return reStr;
   }
 }
 
@@ -66,5 +99,7 @@ module.exports = {
   isNearExpiration: tools.isNearExpiration,
   isHasPic: tools.isHasPic,
   timeRemoveSecond: tools.timeRemoveSecond,
-  getExpirationTime: tools.getExpirationTime
+  timeRemoveSecond_unday:tools.timeRemoveSecond_unday,
+  getExpirationTime: tools.getExpirationTime,
+  getTimeLen:tools.getTimeLen,
 }

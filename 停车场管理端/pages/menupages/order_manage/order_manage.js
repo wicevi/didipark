@@ -10,6 +10,8 @@ Page({
     isLoading:false,
     //弹窗变量
     isOpenModal_info:false,
+    confirmDelModal:false,
+    confirmManualModal:false,
     //当前是在场订单界面还是离场订单
     PageCur: 'inOrder',
     //搜索输入的车牌
@@ -38,6 +40,25 @@ Page({
       image:'/images/tip.png'
     })
   },
+  copyPlate(event){
+    var plate=event.currentTarget.dataset.plate;
+    wx.setClipboardData({
+      data: plate,
+    })
+  },
+  //弹窗相关
+  showConfirmDelModal(e){
+    this.setData({confirmDelModal:true,isOpenModal_info:false});
+  },
+  showConfirmManualModal(e){
+    this.setData({confirmManualModal:true,isOpenModal_info:false});
+  },
+  hideConfirmDelModal(e){
+    this.setData({confirmDelModal:false,isOpenModal_info:true});
+  },
+  hideConfirmManualModal(e){
+    this.setData({confirmManualModal:false,isOpenModal_info:true});
+  },
   //导航栏切换事件
   navChange(e) {
     var tap_cur=e.currentTarget.dataset.cur;
@@ -63,7 +84,11 @@ Page({
     this.setData({
       orderIndex: e.currentTarget.dataset.index
     });
-    this.openModal_info();
+    if(this.data.PageCur=="inOrder"){
+      this.refreshPrice({isopen:true});
+    }else{
+      this.openModal_info();
+    }
   },
   //开启订单详情弹窗
   openModal_info(e){
@@ -80,38 +105,128 @@ Page({
   },
   //搜索车牌订单
   searchOrder(e){
-    if(this.data.searchPlate.length<7){
-      wx.showToast({
-        title: '输入完整车牌',
-        image:'/images/tip.png'
-      })
-    }else if(this.data.searchPlate.length>8){
-      wx.showToast({
-        title: '输入车牌过长',
-        image:'/images/tip.png'
-      })
-    }else{
+    // if(this.data.searchPlate.length<7){
+    //   wx.showToast({
+    //     title: '输入完整车牌',
+    //     image:'/images/tip.png'
+    //   })
+    // }else if(this.data.searchPlate.length>8){
+    //   wx.showToast({
+    //     title: '输入车牌过长',
+    //     image:'/images/tip.png'
+    //   })
+    // }else{
       this.loadOrder();
-    }
+    // }
   },
   //清空车牌
   clearPlate(e){
     this.setData({searchPlate:""});
   },
+  manualFinish:function(e){
+    var this_=this;
+    var index=this.data.orderIndex;
+    this_.manualOrder(index);
+  },
   finish:function(e){
     var this_=this;
     var index=this.data.orderIndex;
-    wx.showModal({
-      title:"确认结算",
-      content:"请确认是否将 "+this_.data.orderList[index].Plate+" 车辆的订单手动结算掉？",
-      success:function(res){
-        if(res.confirm){
-          this_.delOrder(index);
-        }
-      }
-    });
+    this_.delOrder(index);
   },
-  //清除订单
+  //获取订单金额
+  refreshPrice:function(e){
+    var this_=this;
+    var ismanual=e.currentTarget?e.currentTarget.dataset.ismanual:null;
+    var isopen=e.isopen;
+    var data_={ParkID:app.globalData.parkList[app.globalData.parkIndex].ID,InID:this_.data.orderList[this_.data.orderIndex].InID};
+    if(app.globalData.parkList&&app.globalData.parkIndex<app.globalData.parkList.length){
+      this_.setData({isLoading:true});
+      wx.request({
+        url: app.HOST+app.URLS.manual,
+        header:app.requestHeader,
+        data:data_,
+        method:"GET",
+        success:function(res){
+          console.log(res);
+          if(res.data.Code=="success"){
+            this_.data.orderList[this_.data.orderIndex].Price=res.data.Result.Price;
+            this_.setData({orderList:this_.data.orderList});
+            if(isopen){
+              this_.openModal_info();
+            }else if(ismanual){
+              this_.showConfirmManualModal();
+            }
+          }else{
+            wx.showModal({
+              title: '获取金额异常',
+              content: res.data.Message,
+              showCancel:false
+            })
+          }
+        },
+        fail:function(e){
+          wx.showToast({
+            title: '连接服务器异常',
+            image:'/images/error.png'
+          });
+        },
+        complete:function(res){
+          this_.setData({isLoading:false});
+        },
+      })
+    }else{
+      wx.showToast({
+        title: '车场异常',
+        image:'/images/error.png'
+      })
+    }
+  },
+  //人工收费
+  manualOrder:function(index){
+    var this_=this;
+    var data_={ParkID:app.globalData.parkList[app.globalData.parkIndex].ID,InID:this_.data.orderList[index].InID};
+    if(app.globalData.parkList&&app.globalData.parkIndex<app.globalData.parkList.length){
+      this_.setData({isLoading:true});
+      wx.request({
+        url: app.HOST+app.URLS.manual,
+        header:app.requestHeader,
+        data:data_,
+        method:"POST",
+        success:function(res){
+          console.log(res);
+          if(res.data.Code=="success"){
+            this_.data.orderList.splice(index, 1);
+            this_.setData({orderList:this_.data.orderList,isOpenModal_info:false,confirmManualModal:false});
+            wx.showToast({
+              title: '确认成功',
+              image:'/images/success.png'
+            })
+          }else{
+            wx.showModal({
+              title: '人工确认失败',
+              content: res.data.Message,
+              showCancel:false
+            })
+          }
+        },
+        fail:function(e){
+          wx.showToast({
+            title: '连接服务器异常',
+            image:'/images/error.png'
+          })
+        },
+        complete:function(res){
+          this_.setData({isLoading:false});
+        },
+      })
+    }else{
+      wx.showToast({
+        title: '车场异常',
+        image:'/images/error.png'
+      })
+    }
+  },
+  //结算订单
   delOrder:function(index){
     var this_=this;
     var data_={ParkID:app.globalData.parkList[app.globalData.parkIndex].ID,InID:this_.data.orderList[index].InID};
@@ -126,14 +241,14 @@ Page({
           console.log(res);
           if(res.data.Code=="success"){
             this_.data.orderList.splice(index, 1);
-            this_.setData({orderList:this_.data.orderList,isOpenModal_info:false});
+            this_.setData({orderList:this_.data.orderList,isOpenModal_info:false,confirmDelModal:false});
             wx.showToast({
               title: '结算成功',
               image:'/images/success.png'
             })
           }else{
             wx.showModal({
-              title: '结算订单异常',
+              title: '结算订单失败',
               content: res.data.Message,
               showCancel:false
             })
@@ -165,9 +280,9 @@ Page({
       this_.setData({isLoading:true});
       if(this.data.PageCur=='outOrder')url_=app.URLS.query_outorders;
       else url_=app.URLS.query_inorders;
-      if(this.data.searchPlate.length==7||this.data.searchPlate.length==8){
+      // if(this.data.searchPlate.length==7||this.data.searchPlate.length==8){
         data_.Plate=this.data.searchPlate;
-      }
+      // }
       wx.request({
         url: app.HOST+url_,
         header:app.requestHeader,

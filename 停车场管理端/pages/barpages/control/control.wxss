@@ -18,8 +18,8 @@
   height: 338rpx;
 }
 .video-view-tip-img{
-  width: 40rpx;
-  height: 40rpx;
+  width: 51rpx;
+  height: 43rpx;
 }
 .content-view{
   width: 96%;

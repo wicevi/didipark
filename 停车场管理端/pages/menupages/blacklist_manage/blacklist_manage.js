@@ -37,10 +37,24 @@ Page({
     });
   },
   add_btn_click:function(e){
+    if(app.globalData.userInfo.userGroup=='operator'){
+      wx.showToast({
+        title: '权限不足',
+        image: '/images/tip.png'
+      });
+      return;
+    };
     this.openInputView();
   },
   edit_btn_click:function(e){
     var this_=this;
+    if(app.globalData.userInfo.userGroup=='operator'){
+      wx.showToast({
+        title: '权限不足',
+        image: '/images/tip.png'
+      });
+      return;
+    };
     this.setData({
       is_edit:!this_.data.is_edit
     })
@@ -48,6 +62,14 @@ Page({
   //获取黑名单列表
   getBlackList:function(){
     var this_=this;
+    // if(app.globalData.userInfo.userGroup=='operator'){
+    //   wx.showToast({
+    //     title: '权限不足',
+    //     image: '/images/tip.png'
+    //   });
+    //   wx.stopPullDownRefresh();
+    //   return;
+    // };
     if(app.globalData.parkList&&app.globalData.parkIndex<app.globalData.parkList.length){
       this_.setData({isLoading:true});
       wx.request({

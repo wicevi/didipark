@@ -79,6 +79,14 @@ Page({
   //获取报表信息
   updateReportData(e) {
     var this_=this;
+    if(app.globalData.userInfo.userGroup=='operator'){
+      wx.showToast({
+        title: '权限不足',
+        image: '/images/tip.png'
+      });
+      wx.stopPullDownRefresh();
+      return;
+    };
     if(app.globalData.parkList&&app.globalData.parkIndex<app.globalData.parkList.length){
       this_.setData({isLoading:true});
       wx.request({

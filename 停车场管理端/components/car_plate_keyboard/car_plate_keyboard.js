@@ -4,7 +4,10 @@ Component({
    * 组件的属性列表
    */
   properties: {
-
+    limit:{
+      type:Number,
+      value:1,
+    }
   },
 
   /**
@@ -40,7 +43,7 @@ Component({
       this.setData({isShowKeyboard:true,inputPlate:input_plate});
       if(input_plate==null||input_plate.length==0)this.setData({showType:0});
       else this.setData({showType:1});
-      if(input_plate&&input_plate.length==1)this.setData({isEnableNumber:false});
+      if(input_plate&&input_plate.length==1&&this.data.limit==1)this.setData({isEnableNumber:false});
       else this.setData({isEnableNumber:true});
     },
     inputEvent(e){

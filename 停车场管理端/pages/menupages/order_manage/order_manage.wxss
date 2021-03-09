@@ -23,6 +23,7 @@
 .order-list-view{
   border-radius: 16rpx;
 }
+
 .order-info-item-view{
   height: 56rpx;
   border-bottom: 2rpx solid #dddee1;
